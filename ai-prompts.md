@@ -19,9 +19,6 @@ Yassir: explain php overload
 Yassir: is func_get_args() special
 ```
 ```plaintext
-Yassir: explain php overload
-```
-```plaintext
 Yassir: how about you explain overriding next
 ```
 ```plaintext
@@ -47,6 +44,15 @@ Yassir: when is destruct code triggered
 ```
 ```plaintext
 Yassir: so the only ways destruct is called is when its unset and/or script ends
+```
+```plaintext
+Yassir: what is a reflexion class
+```
+```plaintext
+Yassir: call a child method from parent class using refexionClass
+```
+```plaintext
+Yassir: method overloading php oop
 ```
 
 ## List of prompts used to generate the structure of self-documentation

@@ -1,0 +1,83 @@
+<?php
+
+require "./src/SimpleORM/EntityGenerator.php";
+
+use generate\generateEntity;
+use EntityManager\EntityManager;
+
+$command_args = array_slice($argv, 1);
+$command_array = explode(":", $command_args[0]);
+$command_interface = $command_array[0];
+
+if ($command_array[0] === "help") {
+    $available_interfaces = ["generate", "migrate", "destroy", "rollback"];
+    $available_arguments = ["entity", "controller"];
+    echo "\nAvailable interfaces: " . implode(', ', $available_interfaces) . "\n";
+    echo "Available arguments: " . implode(', ', $available_arguments) . "\n";
+    echo "Example command: " . "php simple generate:entity <entity> With entity being the entity name";
+    exit();
+} else if ($argc > 4 || $argc < 3) {
+    exit("insufficiant number of arguments: " . $argc);
+}
+
+$class_name = $command_args[1];
+$command_argument = $command_array[1];
+
+if ($class_name == "Class") {
+    exit("Entity name 'Class' is not allowed");
+}
+
+function isFirstCharUppercase(string $str): bool {
+    return ctype_upper(mb_substr($str, 0, 1, 'UTF-8'));
+}
+
+if (!isFirstCharUppercase($class_name)) {
+    exit('Entity name: '. $class_name . ' must start with an uppercase');
+}
+
+switch ($command_interface) {
+    case "destroy":
+        switch ($command_argument) {
+            case "entity":
+                generateEntity::destroy($class_name);
+                break;
+            default:
+            exit("command argument not recognized");
+        }
+        break;
+    case "generate":
+        switch ($command_argument) {
+            case "entity":
+                generateEntity::generate($class_name);
+                break;
+            case "controller":
+                generateEntity::generate($class_name);
+                break;
+            default:
+            exit("command argument not recognized");
+        }
+        break;
+    case "migrate":
+        switch ($command_argument) {
+            case "entity":
+                generateEntity::migrate($class_name);
+                break;
+            default:
+            exit("command argument not recognized");
+        }
+        break;
+    case "rollback":
+        switch ($command_argument) {
+            case "entity":
+                $manager = new EntityManager($class_name);
+                $manager->down();
+                break;
+            default:
+            exit("command argument not recognized");
+        }
+        break;
+    default:
+    exit("command interface not recognized");
+}
+
+
