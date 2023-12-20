@@ -1,18 +1,18 @@
 <?php
 
-namespace Entities;
+namespace Migrations;
 
-use ReflectionClass, ReflectionProperty, queries\QueryGenerator;
+use ReflectionClass, ReflectionProperty;
 
-abstract class Entity {
+abstract class Migration {
     public static function getPropertyConfig(): array {
         return [];
     }
  }
 
-class EntityMapper {
-    private Entity $entity;
-    public function __construct(Entity $entity) {
+class MigrationMapper {
+    private Migration $entity;
+    public function __construct(Migration $entity) {
         $this->entity = $entity;
     }
     public function map(): array {

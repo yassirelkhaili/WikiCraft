@@ -1,6 +1,6 @@
 <?php
 
-require "./src/Utils/EntityGenerator.php";
+require "./src/SimpleORM/EntityGenerator.php";
 
 use generate\generateEntity;
 use EntityManager\EntityManager;
@@ -11,7 +11,7 @@ $command_interface = $command_array[0];
 
 if ($command_array[0] === "help") {
     $available_interfaces = ["generate", "migrate", "destroy", "rollback"];
-    $available_arguments = ["entity"];
+    $available_arguments = ["entity", "controller"];
     echo "\nAvailable interfaces: " . implode(', ', $available_interfaces) . "\n";
     echo "Available arguments: " . implode(', ', $available_arguments) . "\n";
     echo "Example command: " . "php simple generate:entity <entity> With entity being the entity name";
@@ -50,6 +50,9 @@ switch ($command_interface) {
             case "entity":
                 generateEntity::generate($class_name);
                 break;
+            case "controller":
+                generateEntity::generate($class_name);
+                break;
             default:
             exit("command argument not recognized");
         }
@@ -57,7 +60,7 @@ switch ($command_interface) {
     case "migrate":
         switch ($command_argument) {
             case "entity":
-                generateEntity::migrate($class_name, $conn);
+                generateEntity::migrate($class_name);
                 break;
             default:
             exit("command argument not recognized");
@@ -66,7 +69,7 @@ switch ($command_interface) {
     case "rollback":
         switch ($command_argument) {
             case "entity":
-                $manager = new EntityManager($conn, $class_name);
+                $manager = new EntityManager($class_name);
                 $manager->down();
                 break;
             default:

@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__DIR__) . "/Utils/EntityMapper.php";
+require_once dirname(__DIR__) . "/SimpleORM/MigrationMapper.php";
 
-use Entities\Entity;
+use Migrations\Migration;
 
-class Stairs extends Entity {
+class Stairs extends Migration {
     /**
      * @var int
      *

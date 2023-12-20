@@ -8,12 +8,12 @@ $entity = new EntityManager("Users");
 
 // individual insert
 
-$entity->email = "type";
-$entity->name = "name421";
-$entity->lastname = "last_name2";
-$entity->userID = 231;
+// $entity->email = "typeasd";
+// $entity->name = "name421";
+// $entity->lastname = "last_name232";
+// $entity->userID = 23123;
 
-$entity->save();
+// $entity->save();
 
 //batch insert
 

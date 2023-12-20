@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__DIR__) . "/Utils/EntityMapper.php";
+require_once dirname(__DIR__) . "/SimpleORM/MigrationMapper.php";
 
-use Entities\Entity;
+use Migrations\Migration;
 
-class Books extends Entity {
+class Users extends Migration {
     /**
      * @var int
      *
@@ -40,6 +40,8 @@ class Books extends Entity {
             'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
             'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
             'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
+            'lastname' => ['type' => 'varchar', 'length' => 23, 'notNull' => false, 'unique' => true],
+            'userID' => ['type' => 'int', 'notNull' => false, 'unique' => true],
         ];
     }
 }
