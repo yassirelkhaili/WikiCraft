@@ -42,7 +42,7 @@ $entity = new EntityManager("Users");
 // $entity->fetchAll()->get();
 // $entity->fetchAll()->get(number);
 // $entity->fetchAll()->where("name", "exampleName")->get();
-// $entity->fetchAll()->where("name", "exampleName")-where("email", "exampleEmail")->get(number);
+// $entity->fetchAll()->where("name", "exampleName")->where("email", "exampleEmail")->get(number);
 
 //delete records
 

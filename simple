@@ -4,6 +4,7 @@ require "./src/SimpleORM/EntityGenerator.php";
 
 use generate\generateEntity;
 use EntityManager\EntityManager;
+use generate\EntityType;
 
 $command_args = array_slice($argv, 1);
 $command_array = explode(":", $command_args[0]);
@@ -48,10 +49,10 @@ switch ($command_interface) {
     case "generate":
         switch ($command_argument) {
             case "entity":
-                generateEntity::generate($class_name);
+                generateEntity::generate($class_name, EntityType::migration);
                 break;
             case "controller":
-                generateEntity::generate($class_name);
+                generateEntity::generate($class_name, EntityType::controller);
                 break;
             default:
             exit("command argument not recognized");
