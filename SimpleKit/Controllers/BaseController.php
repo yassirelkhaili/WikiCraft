@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleKit;
+namespace SimpleKit\Controllers;
 
 class Controller {
     protected function render(string $view, array $data = []) {

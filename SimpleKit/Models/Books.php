@@ -1,12 +1,10 @@
 <?php
-
+    
     namespace SimpleKit\Models;
-    
-    require_once "./src/SimpleORM/EntityManager.php";
-    
-    use EntityManager\EntityManager;
-    
-    class BooksModal {
+
+    use SimpleKit\SimpleORM\EntityManager;
+
+    class BooksModel {
         private $entity;
     
         public function __construct() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace queries;
+namespace SimpleKit\SimpleORM;
 
 class QueryGenerator
 {

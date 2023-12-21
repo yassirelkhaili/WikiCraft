@@ -1,8 +1,6 @@
 <?php
 
-require "./src/SimpleORM/EntityManager.php";
-
-use EntityManager\EntityManager;
+use SimpleKit\SimpleORM\EntityManager;
 
 $entity = new EntityManager("Users");
 

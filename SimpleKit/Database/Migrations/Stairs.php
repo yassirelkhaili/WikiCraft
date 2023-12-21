@@ -2,7 +2,7 @@
 
 require_once dirname(__DIR__) . "/SimpleORM/MigrationMapper.php";
 
-use Migrations\Migration;
+use SimpleKit\SimpleORM\Migration;
 
 class Stairs extends Migration {
     /**

@@ -1,6 +1,8 @@
 <?php
 
-namespace SimpleKit;
+namespace SimpleKit\Routers;
+
+require __DIR__ . "/../Controllers/BooksController.php";
 
 class BaseRouter {
     protected $routes = [];
@@ -13,7 +15,6 @@ class BaseRouter {
         if (array_key_exists($uri, $this->routes)) {
             $controller = $this->routes[$uri]['controller'];
             $action = $this->routes[$uri]['action'];
-
             $controller = new $controller();
             $controller->$action();
         } else {

@@ -1,5 +1,7 @@
 <?php
 
+namespace SimpleKit\Helpers;
+
 // Start the session (if not already started)
 session_start();
 
@@ -20,7 +22,6 @@ function redirect($path)
 class Redirector
 {
     protected $path;
-    protected $sessionData = [];
 
     public function __construct($path)
     {
@@ -42,5 +43,13 @@ class Redirector
         // Perform the actual redirection
         header("Location: {$this->path}");
         exit();
+    }
+
+    // Redirect if $this->with method is not called
+    public function __destruct() {
+        if (isset($this->path)) {
+            header("Location: {$this->path}");
+            exit();
+        }
     }
 }

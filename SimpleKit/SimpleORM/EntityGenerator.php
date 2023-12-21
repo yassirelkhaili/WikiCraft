@@ -1,12 +1,9 @@
 <?php
 
-namespace generate;
+namespace SimpleKit\SimpleORM;
 
-
-require_once dirname(__DIR__) . "/SimpleORM/EntityManager.php";
-
-use EntityManager\EntityManager;
-use Migrations\MigrationMapper;
+use SimpleKit\SimpleORM\EntityManager;
+use SimpleKit\SimpleORM\MigrationMapper;
 
 enum EntityType: string
 {
@@ -44,7 +41,7 @@ class generateEntity Extends generate {
                 
                 require __DIR__ . "/Helpers/redirect.php";
 
-                use SimpleKit\Controller;
+                use SimpleKit\Controllers\Controller;
                 use SimpleKit\Models\\{$modalNameUppercase};
                 
                 class {$controllerPrefix}Controller extends Controller {
@@ -80,7 +77,7 @@ class generateEntity Extends generate {
         
             require_once dirname(__DIR__) . "/SimpleORM/MigrationMapper.php";
         
-            use Migrations\Migration;
+            use SimpleKit\SimpleORM\Migration;
         
             class $entity_name extends Migration {
                 /**
@@ -134,9 +131,7 @@ class generateEntity Extends generate {
 
                 namespace SimpleKit\Models;
                 
-                require_once "./src/SimpleORM/EntityManager.php";
-                
-                use EntityManager\EntityManager;
+                use SimpleKit\SimpleORM\EntityManager;
                 
                 class UserModel {
                     private \$entity;

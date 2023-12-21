@@ -2,26 +2,21 @@
 
 namespace SimpleKit\Controllers;
 
-require dirname(__DIR__) . "/Helpers/redirect.php";
+use function SimpleKit\Helpers\redirect;
+use SimpleKit\Models\BooksModel;
 
-use SimpleKit\Controller;
-use SimpleKit\Models\BooksModal;
-
-class booksController extends Controller {
+class BooksController extends Controller {
     
     protected $booksModal;  // This translates to booksModal
     
     public function __construct() {
         // Instantiate the BooksModal and assign it to the protected property
-        $this->booksModal = new booksModal();
+        $this->booksModal = new BooksModel();
     }
 
     public function index() {
         // Fetch all users using the booksModal
-        $books = $this->booksModal->getAll();
-
-        // Render the view and pass the books data to it
-        $this->render('book/index', ['books' => $books]);
+        exit("");
     }
 
     public function create() {
@@ -38,7 +33,7 @@ class booksController extends Controller {
 
         // Redirect back to the index page with a success message (or handle differently based on your needs)
         // You can also render a view or return a JSON response
-        return redirect('/books')->with(['success', 'Book created successfully!']);
+        return redirect('/books')->with(['success' => 'Book created successfully!']);  // Note the change here
     }
 
     public function show(int $id) {

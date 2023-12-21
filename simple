@@ -2,9 +2,9 @@
 
 require "./src/SimpleORM/EntityGenerator.php";
 
-use generate\generateEntity;
-use EntityManager\EntityManager;
-use generate\EntityType;
+use SimpleKit\SimpleORM\generateEntity;
+use SimpleKit\SimpleORM\EntityManager;
+use SimpleKit\SimpleORM\EntityType;
 
 $command_args = array_slice($argv, 1);
 $command_array = explode(":", $command_args[0]);
