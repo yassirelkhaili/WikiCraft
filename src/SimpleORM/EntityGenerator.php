@@ -36,6 +36,7 @@ class generateEntity Extends generate {
                 if (file_exists($full_path)) exit("$type->value $entity_name already exists");
                 $modalName = $controllerPrefix . "Modal";
                 $modalNameUppercase = ucfirst($controllerPrefix . "Modal");
+                $controllerPrefixSingular = substr($controllerPrefix, 0, -1);
                 $entity_content = <<<PHP
                 <?php
                 
@@ -54,14 +55,14 @@ class generateEntity Extends generate {
                     }
                 
                     public function index() {
-                        // Fetch all users using the UserModel
-                        \${$controllerPrefix}s = \$this->{$modalName}->getAll();
+                        // Fetch all users using the $modalName
+                        \${$controllerPrefix} = \$this->{$modalName}->getAll();
                 
                         // Render the view and pass the $controllerPrefix data to it
-                        \$this->render('{$controllerPrefix}/index', ['{$controllerPrefix}' => \${$controllerPrefix}]);
+                        \$this->render('{$controllerPrefixSingular}/index', ['{$controllerPrefix}' => \${$controllerPrefix}]);
                     }
                 
-                    // You can add more controller methods as needed to handle other $controllerPrefix-related functionalities
+                    // You can add more controller methods as needed to handle other $controllerPrefixSingular-related functionalities
                 }
                 PHP;
                 

@@ -1,23 +1,22 @@
 <?php
 
-namespace MVC;
+use SimpleKit\BaseRouter;
 
-class Router {
-    protected $routes = [];
+// Create a new Router instance
+$router = new BaseRouter();
 
-    public function addRoute($route, $controller, $action) {
-        $this->routes[$route] = ['controller' => $controller, 'action' => $action];
-    }
+$router->addRoute('/books', 'SimpleKit\Controllers\booksController', 'index');
+$router->addRoute('/books/create', 'SimpleKit\Controllers\booksController', 'create');
+$router->addRoute('/books/store', 'SimpleKit\Controllers\booksController', 'store');
+$router->addRoute('/books/show/{id}', 'SimpleKit\Controllers\booksController', 'show');
+$router->addRoute('/books/edit/{id}', 'SimpleKit\Controllers\booksController', 'edit');
+$router->addRoute('/books/update/{id}', 'SimpleKit\Controllers\booksController', 'update');
+$router->addRoute('/books/destroy/{id}', 'SimpleKit\Controllers\booksController', 'destroy');
 
-    public function dispatch($uri) {
-        if (array_key_exists($uri, $this->routes)) {
-            $controller = $this->routes[$uri]['controller'];
-            $action = $this->routes[$uri]['action'];
+$uri = $_SERVER['REQUEST_URI'];
 
-            $controller = new $controller();
-            $controller->$action();
-        } else {
-            throw new \Exception("No route found for URI: $uri");
-        }
-    }
+try {
+    $router->dispatch($uri);
+} catch (\Exception $e) {
+    echo "Error: " . $e->getMessage();
 }

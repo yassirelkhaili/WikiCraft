@@ -16,10 +16,10 @@ class booksController extends Controller {
 
     public function index() {
         // Fetch all users using the UserModel
-        $bookss = $this->booksModal->getAll();
+        $books = $this->booksModal->getAll();
 
-        // Render the view and pass the bookss data to it
-        $this->render('books/index', ['books' => $books]);
+        // Render the view and pass the books data to it
+        $this->render('book/index', ['books' => $books]);
     }
 
     // You can add more controller methods as needed to handle other books-related functionalities
