@@ -42,6 +42,8 @@ class generateEntity Extends generate {
                 
                 namespace SimpleKit\Controllers;
                 
+                require __DIR__ . "/Helpers/redirect.php";
+
                 use SimpleKit\Controller;
                 use SimpleKit\Models\\{$modalNameUppercase};
                 
