@@ -12,6 +12,7 @@ enum EntityType: string
 {
     case controller = "Controller";
     case migration = "Migration";
+    case model = "Model";
 }
 
 abstract class generate {
@@ -28,30 +29,42 @@ class generateEntity Extends generate {
         $entity_content = "";
         switch ($type->value) {
             case "Controller":
+                $controllerPrefix = self::getControllerPrefix($entity_name);
                 $destination_directory .= "\Controllers";
                 $full_path = $destination_directory . '/' . $file_name;
                 if (!is_dir($destination_directory)) mkdir($destination_directory, 0777, true);
                 if (file_exists($full_path)) exit("$type->value $entity_name already exists");
+                $modalName = $controllerPrefix . "Modal";
+                $modalNameUppercase = ucfirst($controllerPrefix . "Modal");
                 $entity_content = <<<PHP
                 <?php
-
-                namespace MVC\Controllers;
                 
-                use MVC\Controller;
-                use MVC\Models\User;
+                namespace SimpleKit\Controllers;
                 
-                class UserController extends Controller {
-                    public function index() {
-                        \$users = [
-                            new User('John Doe', 'john@example.com'),
-                            new User('Jane Doe', 'jane@example.com')
-                        ];
+                use SimpleKit\Controller;
+                use SimpleKit\Models\\{$modalNameUppercase};
                 
-                        \$this->render('user/index', ['users' => \$users]);
-                    }
-                }
+                class {$controllerPrefix}Controller extends Controller {
                     
+                    protected \$$modalName;  // This translates to $modalName
+                    
+                    public function __construct() {
+                        // Instantiate the $modalNameUppercase and assign it to the protected property
+                        \$this->$modalName = new {$modalName}();
+                    }
+                
+                    public function index() {
+                        // Fetch all users using the UserModel
+                        \${$controllerPrefix}s = \$this->{$modalName}->getAll();
+                
+                        // Render the view and pass the $controllerPrefix data to it
+                        \$this->render('{$controllerPrefix}/index', ['{$controllerPrefix}' => \${$controllerPrefix}]);
+                    }
+                
+                    // You can add more controller methods as needed to handle other $controllerPrefix-related functionalities
+                }
                 PHP;
+                
             file_put_contents($full_path, $entity_content);
             exit("The $entity_name $type->value has been generated at: $full_path\n");
             case "Migration":
@@ -108,6 +121,52 @@ class generateEntity Extends generate {
             PHP;
                 file_put_contents($full_path, $entity_content);
                 exit("The $entity_name $type->value has been generated at: $full_path\n");
+            case "Model":
+                $destination_directory .= "\Models";
+                $full_path = $destination_directory . '/' . $file_name;
+                if (!is_dir($destination_directory)) mkdir($destination_directory, 0777, true);
+                if (file_exists($full_path)) exit("$type->value $entity_name already exists");
+                $entity_content = <<<PHP
+            <?php
+
+                namespace SimpleKit\Models;
+                
+                require_once "./src/SimpleORM/EntityManager.php";
+                
+                use EntityManager\EntityManager;
+                
+                class UserModel {
+                    private \$entity;
+                
+                    public function __construct() {
+                        \$this->entity = new EntityManager("Users");
+                    }
+                
+                    public function create(\$data) {
+                        \$this->entity->saveMany([\$data]);
+                    }
+                
+                    public function getAll() {
+                        return \$this->entity->fetchAll()->get();
+                    }
+                
+                    public function getById(\$id) {
+                        return \$this->entity->fetchAll()->where("id", \$id)->get(1);
+                    }
+                
+                    public function updateById(\$id, \$data) {
+                        \$this->entity->update(\$data)->where("id", \$id)->confirm();
+                    }
+                
+                    public function deleteById(\$id) {
+                        \$this->entity->delete()->where("id", \$id)->confirm();
+                    }
+                
+                    // Add other methods as needed to interact with the Users entity using SimpleORM
+                }               
+            PHP;
+                file_put_contents($full_path, $entity_content);
+                exit("The $entity_name $type->value has been generated at: $full_path\n");
             default:
             exit("Invalid Entity Type");
         }
@@ -139,7 +198,7 @@ class generateEntity Extends generate {
        switch ($type->value) {
         case "Controller":
             $file_name = $entity_type . ".php";
-            $destination_directory .= "\Database\Migrations";
+            $destination_directory .= "\Controllers";
             $full_path = $destination_directory . '/' . $file_name;
             if (file_exists($full_path)) {
                 if (unlink($full_path)) {
@@ -163,8 +222,27 @@ class generateEntity Extends generate {
             } else {
                 exit("$type->value: $entity_type does not exist");
             }
+            case "Model":
+                $file_name = $entity_type . ".php";
+                $destination_directory .= "\Models";
+                $full_path = $destination_directory . '/' . $file_name;
+                if (file_exists($full_path)) {
+                    if (unlink($full_path)) {
+                        exit ("$type->value deleted successfully.");
+                    } else {
+                        exit("Unable to delete the $type->value: $entity_type.");
+                    }
+                } else {
+                    exit("$type->value: $entity_type does not exist");
+                }
         default:
         exit("Invalid Entity Type");
        }
+    }
+    //helper with controller generating naming
+    private static function getControllerPrefix (string $entity_name): string {
+        $prefix = str_replace('Controller', '', $entity_name);
+        $prefix = strtolower($prefix);
+        return $prefix;
     }
 }

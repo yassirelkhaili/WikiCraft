@@ -28,22 +28,29 @@ if ($class_name == "Class") {
     exit("Entity name 'Class' is not allowed");
 }
 
-function isFirstCharUppercase(string $str): bool {
+function isFirstCharUppercase(string $str): bool
+{
     return ctype_upper(mb_substr($str, 0, 1, 'UTF-8'));
 }
 
 if (!isFirstCharUppercase($class_name)) {
-    exit('Entity name: '. $class_name . ' must start with an uppercase');
+    exit('Entity name: ' . $class_name . ' must start with an uppercase');
 }
 
 switch ($command_interface) {
     case "destroy":
         switch ($command_argument) {
             case "entity":
-                generateEntity::destroy($class_name);
+                generateEntity::destroy($class_name, EntityType::migration);
                 break;
+            case "controller":
+                generateEntity::destroy($class_name, EntityType::controller);
+                break;
+            case "model":
+                generateEntity::destroy($class_name, EntityType::model);
+            break;
             default:
-            exit("command argument not recognized");
+                exit("Command argument not recognized");
         }
         break;
     case "generate":
@@ -54,8 +61,11 @@ switch ($command_interface) {
             case "controller":
                 generateEntity::generate($class_name, EntityType::controller);
                 break;
+            case "model":
+                generateEntity::generate($class_name, EntityType::model);
+                break;
             default:
-            exit("command argument not recognized");
+                exit("Command argument not recognized");
         }
         break;
     case "migrate":
@@ -64,7 +74,7 @@ switch ($command_interface) {
                 generateEntity::migrate($class_name);
                 break;
             default:
-            exit("command argument not recognized");
+                exit("Command argument not recognized");
         }
         break;
     case "rollback":
@@ -74,11 +84,9 @@ switch ($command_interface) {
                 $manager->down();
                 break;
             default:
-            exit("command argument not recognized");
+                exit("Command argument not recognized");
         }
         break;
     default:
-    exit("command interface not recognized");
+        exit("Command interface not recognized");
 }
-
-
