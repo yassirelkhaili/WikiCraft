@@ -2,10 +2,10 @@
 
 namespace SimpleKit\Controllers;
 
-class Controller {
+class BaseController {
     protected function render(string $view, array $data = []) {
         extract($data);
 
-        include_once dirname(__DIR__) . "/Views/$view";
+        include_once dirname(__DIR__) . "/Views/$view.php";
     }
 }

@@ -4,7 +4,7 @@
 
     use SimpleKit\SimpleORM\EntityManager;
 
-    class BooksModel {
+    class Books {
         private $entity;
     
         public function __construct() {

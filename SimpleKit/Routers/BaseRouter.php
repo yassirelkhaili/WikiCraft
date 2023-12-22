@@ -2,8 +2,6 @@
 
 namespace SimpleKit\Routers;
 
-require __DIR__ . "/../Controllers/BooksController.php";
-
 class BaseRouter {
     protected $routes = [];
 

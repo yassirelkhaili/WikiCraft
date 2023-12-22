@@ -1,4 +1,6 @@
 <?php
 // App root
 
-include dirname(__DIR__) . "/src/Routers/web.php";
+require dirname(__DIR__) . "/vendor/autoload.php";
+
+include dirname(__DIR__) . "/SimpleKit/Routers/router.php";

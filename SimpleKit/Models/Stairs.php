@@ -4,7 +4,7 @@
     
     use SimpleKit\SimpleORM\EntityManager;
     
-    class UserModel {
+    class Stairs {
         private $entity;
     
         public function __construct() {
