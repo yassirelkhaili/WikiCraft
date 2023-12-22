@@ -15,7 +15,7 @@ class DatabaseConnection {
 
         $DB_DRIVER = $_ENV["DRIVER"];
         $DB_HOST = $_ENV["DB_HOST"]; 
-        $DB_NAME = $_ENV["DB_NAME"]; 
+        $DB_NAME = $_ENV["DB_NAME"];
         $DB_USER = $_ENV["DB_USER"]; 
         $DB_PWORD = $_ENV["DB_PWORD"];
         $DB_PORT = $_ENV["DB_PORT"];
