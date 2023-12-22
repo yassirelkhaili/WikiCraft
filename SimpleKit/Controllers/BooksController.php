@@ -3,6 +3,7 @@
 namespace SimpleKit\Controllers;
 
 use function SimpleKit\Helpers\redirect;
+use SimpleKit\Helpers\Request;
 use SimpleKit\Models\Books;
 
 require __DIR__ . "/../Helpers/Redirector.php";
@@ -24,8 +25,8 @@ class BooksController extends BaseController {
         $this->render('Books/index', ['books' => $books]);
     }
 
-    public function store() {
-        
+    public function store(Request $request) {
+        $data = $request->getPostData();
         // Create a new book using the books
         $this->books->create($data);
 
