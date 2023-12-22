@@ -4,7 +4,8 @@ namespace SimpleKit\Controllers;
 
 use function SimpleKit\Helpers\redirect;
 use SimpleKit\Models\Books;
-use SimpleKit\Controllers\BaseController;
+
+require __DIR__ . "/../Helpers/Redirector.php";
 
 class BooksController extends BaseController {
     
@@ -23,14 +24,7 @@ class BooksController extends BaseController {
         $this->render('Books/index', ['books' => $books]);
     }
 
-    public function create() {
-        // Render the view for creating a new book
-        $this->render('book/create');
-    }
-
-    public function store(object $request) {
-        // Validate the request data (assuming a simple validation here)
-        $data = $request->all();
+    public function store() {
         
         // Create a new book using the books
         $this->books->create($data);
@@ -67,7 +61,7 @@ class BooksController extends BaseController {
         return redirect('/books')->with(['success', 'book updated successfully!']);
     }
 
-    public function destroy($id) {
+    public function destroy(int $id) {
         // Delete a specific book by ID using the books
         $this->books->deleteById($id);
 

@@ -1,8 +1,10 @@
 <?php
 
+require_once "./vendor/autoload.php";
+
 use SimpleKit\SimpleORM\EntityManager;
 
-$entity = new EntityManager("Users");
+$entity = new EntityManager("Books");
 
 // individual insert
 
@@ -21,14 +23,14 @@ $entity = new EntityManager("Users");
 // ]);
 
 // $entity->saveMany([
-//     ["name" => "name1", "email" => "email1@gmail.com", "lastname" => "lastname1", "userID" => 233],
-//     ["name" => "name2", "email" => "email2@gmail.com", "lastname" => "lastname2", "userID" => 213],
-//     ["name" => "name3", "email" => "email3@gmail.com", "lastname" => "lastname3", "userID" => 21],
-//     ["name" => "name4", "email" => "email4@gmail.com", "lastname" => "lastname4", "userID" => 124],
-//     ["name" => "name5", "email" => "email5@gmail.com", "lastname" => "lastname5", "userID" => 532],
-//     ["name" => "name6", "email" => "email6@gmail.com", "lastname" => "lastname6", "userID" => 876],
-//     ["name" => "name7", "email" => "email7@gmail.com", "lastname" => "lastname7", "userID" => 345],
-//     ["name" => "name8", "email" => "email8@gmail.com", "lastname" => "lastname8", "userID" => 789],
+//     ["name" => "name1", "email" => "email1@gmail.com"],
+//     ["name" => "name2", "email" => "email2@gmail.com"],
+//     ["name" => "name3", "email" => "email3@gmail.com"],
+//     ["name" => "name4", "email" => "email4@gmail.com"],
+//     ["name" => "name5", "email" => "email5@gmail.com"],
+//     ["name" => "name6", "email" => "email6@gmail.com"],
+//     ["name" => "name7", "email" => "email7@gmail.com"],
+//     ["name" => "name8", "email" => "email8@gmail.com"],
 // ]);
 
 // $entity->flush();
@@ -71,7 +73,7 @@ $entity = new EntityManager("Users");
 
 //order by
 
-// $entity->fetchAll()->where("name", "nameqwd3")->orderBy(["userID"], "DESC")->get(); ASC default
+// $entity->fetchAll()->where("naC")->get(); ASC default
 
 // <?php
 
@@ -85,8 +87,7 @@ $entity = new EntityManager("Users");
 // $userModel->create([
 //     "name" => "John Doe",
 //     "email" => "john@example.com",
-//     "lastname" => "Doe",
-//     "userID" => 123
+//    
 // ]);
 
 // // Fetch all users

@@ -167,7 +167,6 @@ class EntityManager
             if (!$stmt->execute()) {
                 throw new Exception("Error creating record");
             } 
-            echo "Records fetched successfully \n";
             $this->query_generator->flushChainedQuery();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -222,7 +221,7 @@ class EntityManager
             if (!$stmt->execute()) {
                 throw new Exception("Error creating record");
             } 
-            echo "Records " . ($queryType === "UPDATE" ? 'updated' : 'deleted') . " successfully\n";
+            // echo "Records " . ($queryType === "UPDATE" ? 'updated' : 'deleted') . " successfully\n"; echo delete action status
             $this->query_generator->flushChainedQuery();
         } catch (Exception $exception) {
             echo "An Error has occurred: " . $exception->getMessage();

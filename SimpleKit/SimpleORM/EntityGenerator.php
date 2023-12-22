@@ -41,7 +41,7 @@ class EntityGenerator Extends Generator {
                 use function SimpleKit\Helpers\\redirect;
                 use SimpleKit\Models\\{$prefixUppercase};
                 
-                class {$prefixUppercase}Controller extends Controller {
+                class {$prefixUppercase}Controller extends BaseController {
                     
                     protected \$$prefix;  // This translates to $prefix
                     
@@ -183,7 +183,7 @@ class EntityGenerator Extends Generator {
                 
                 use SimpleKit\SimpleORM\EntityManager;
                 
-                class UserModel {
+                class $prefixUppercase {
                     private \$entity;
                 
                     public function __construct() {

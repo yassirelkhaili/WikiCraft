@@ -10,13 +10,23 @@ class BaseRouter {
     }
 
     public function dispatch(string $uri) {
-        if (array_key_exists($uri, $this->routes)) {
-            $controller = $this->routes[$uri]['controller'];
-            $action = $this->routes[$uri]['action'];
-            $controller = new $controller();
-            $controller->$action();
-        } else {
-            throw new \Exception("No route found for URI: $uri");
+        foreach ($this->routes as $route => $routeDetails) {
+            $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([a-zA-Z0-9_]+)', $route);
+            if (preg_match("#^$pattern$#", $uri, $matches)) {
+                $controllerName = $routeDetails['controller'];
+                $actionName = $routeDetails['action'];
+                $controllerInstance = new $controllerName();
+                if (isset($matches[1])) {
+                $id = intval($matches[1]);
+                $controllerInstance->$actionName($id);  
+                } else {
+                $controllerInstance->$actionName();  
+                }
+                return;
+            }
         }
+        
+        throw new \Exception("No route found for URI: $uri");
     }
+    
 }
