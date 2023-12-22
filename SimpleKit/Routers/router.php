@@ -7,8 +7,7 @@ use SimpleKit\Controllers\BooksController;
 $router = new BaseRouter();
 
 $router->addRoute('/books', BooksController::class, 'index');
-$router->addRoute('/books/create', BooksController::class, 'create');
-$router->addRoute('/books/store', BooksController::class, 'store');
+$router->addRoute('/books/create', BooksController::class, 'store');
 $router->addRoute('/books/show/{id}', BooksController::class, 'show');
 $router->addRoute('/books/edit/{id}', BooksController::class, 'edit');
 $router->addRoute('/books/update/{id}', BooksController::class, 'update');
@@ -21,3 +20,5 @@ try {
 } catch (\Exception $e) {
     echo "Error: " . $e->getMessage();
 }
+
+// Add more routes here

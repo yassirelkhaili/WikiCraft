@@ -1,14 +1,14 @@
 <?php
-    
+
     namespace SimpleKit\Models;
-
+    
     use SimpleKit\SimpleORM\EntityManager;
-
+    
     class Books {
         private $entity;
     
         public function __construct() {
-            $this->entity = new EntityManager("Books");
+            $this->entity = new EntityManager("Users");
         }
     
         public function create($data) {
