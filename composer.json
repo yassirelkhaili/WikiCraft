@@ -1,4 +1,9 @@
 {
+        "autoload": {
+            "psr-4": {
+                "SimpleKit\\": "SimpleKit/"
+            }
+        },
     "require": {
         "vlucas/phpdotenv": "^5.6"
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Migrations;
+namespace SimpleKit\SimpleORM;
 
 use ReflectionClass, ReflectionProperty;
 

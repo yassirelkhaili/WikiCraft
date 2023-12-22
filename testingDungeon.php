@@ -1,8 +1,6 @@
 <?php
 
-require "./src/SimpleORM/EntityManager.php";
-
-use EntityManager\EntityManager;
+use SimpleKit\SimpleORM\EntityManager;
 
 $entity = new EntityManager("Users");
 
@@ -74,3 +72,35 @@ $entity = new EntityManager("Users");
 //order by
 
 // $entity->fetchAll()->where("name", "nameqwd3")->orderBy(["userID"], "DESC")->get(); ASC default
+
+// <?php
+
+// require 'models/UserModel.php';
+
+// use MVC\Models\UserModel;
+
+// $userModel = new UserModel();
+
+// // Create a new user
+// $userModel->create([
+//     "name" => "John Doe",
+//     "email" => "john@example.com",
+//     "lastname" => "Doe",
+//     "userID" => 123
+// ]);
+
+// // Fetch all users
+// $users = $userModel->getAll();
+// print_r($users);
+
+// // Get user by ID
+// $user = $userModel->getById(1);
+// print_r($user);
+
+// // Update user by ID
+// $userModel->updateById(1, ["name" => "Updated Name"]);
+
+// // Delete user by ID
+// $userModel->deleteById(1);
+
+// ?>

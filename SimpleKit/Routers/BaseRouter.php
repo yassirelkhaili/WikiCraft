@@ -1,19 +1,18 @@
 <?php
 
-namespace MVC;
+namespace SimpleKit\Routers;
 
-class Router {
+class BaseRouter {
     protected $routes = [];
 
-    public function addRoute($route, $controller, $action) {
+    public function addRoute(string $route, string $controller, string $action) {
         $this->routes[$route] = ['controller' => $controller, 'action' => $action];
     }
 
-    public function dispatch($uri) {
+    public function dispatch(string $uri) {
         if (array_key_exists($uri, $this->routes)) {
             $controller = $this->routes[$uri]['controller'];
             $action = $this->routes[$uri]['action'];
-
             $controller = new $controller();
             $controller->$action();
         } else {

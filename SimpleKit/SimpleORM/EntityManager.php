@@ -1,11 +1,10 @@
 <?php
 
-namespace EntityManager;
+namespace SimpleKit\SimpleORM;
 
-require_once dirname(__DIR__) . "/Database/connections/conn.php";
-require __DIR__ . "/QueryGenerator.php";
-
-use PDO, queries\QueryGenerator, Exception;
+use PDO, Exception;
+use SimpleKit\SimpleORM\QueryGenerator;
+use SimpleKit\Database\Connections\DatabaseConnection;
 
 class EntityManager
 {
@@ -17,7 +16,8 @@ class EntityManager
     public function __construct(string $entity_name)
     {
         $this->entity_name = $entity_name;
-        $this->db = $GLOBALS['conn'];
+        $conn = new DatabaseConnection();
+        $this->db = $conn->getConnection();
     }
 
     //setter and getter for dynamic column calling
