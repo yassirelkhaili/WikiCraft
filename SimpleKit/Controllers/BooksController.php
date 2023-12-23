@@ -43,23 +43,14 @@ class BooksController extends BaseController {
         $this->render('book/show', ['book]' => $book]);
     }
 
-    public function edit(int $id) {
-        // Fetch a specific book by ID using the books
-        $book = $this->books->getById($id);
-
-        // Render the view for editing the book
-        $this->render('book/edit', ['book' => $book]);
-    }
-
-    public function update(object $request, int $id) {
+    public function update(Request $request, int $id) {
         // Validate the request data (assuming a simple validation here)
-        $data = $request->all();
-        
+        $data = $request->getPostData();
         // Update the book using the BooksModal
         $this->books->updateById($id, $data);
 
         // Redirect back to the index page with a success message (or handle differently based on your needs)
-        return redirect('/books')->with(['success', 'book updated successfully!']);
+        return redirect('/books')->with(['status' => 'modified', 'message' => 'Book updated successfully!']);
     }
 
     public function destroy(int $id) {

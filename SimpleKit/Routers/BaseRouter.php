@@ -20,15 +20,14 @@ class BaseRouter {
                 $actionName = $routeDetails['action'];
                 // Instantiate the controller
                 $controllerInstance = new $controllerName();
-    
                 // If the request is POST, create a Request object and pass it to the controller
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $request = new Request();
-                    
                     if (isset($matches[1])) {
                         $id = intval($matches[1]);
                         $controllerInstance->$actionName($request, $id);  // Pass the Request object and ID
                     } else {
+                    
                         $controllerInstance->$actionName($request);  // Pass the Request object
                     }
                 } else {

@@ -16,7 +16,7 @@
   Add Book
 </button>
 
-<!-- Modal -->
+<!-- Add Book Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -45,6 +45,36 @@
     </div>
   </div>
 </div>
+
+<!-- Edit Book Modal -->
+<div class="modal fade" id="editModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Book</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form action="/books/update" method="POST" id="editForm">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Book name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="textHelp" name="name"> 
+    <div id="textHelp" class="form-text">Change the book name here.</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label|">Book email (huh)</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  name="email">
+    <div id="emailHelp" class="form-text">Change the books email here.</div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
     </header>
     <main>
     <table class="table table-bordered">
@@ -63,7 +93,7 @@
       <td><?= $book["name"] ?></td>
       <td><?= $book["email"] ?></td>
       <td>
-        <button type="button" class="btn btn-warning">Edit</button>
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" data-id=<?= $book["id"] ?>>Edit</button>
         <a href=<?= "/books/destroy/" . "{$book['id']}"?>>
         <button type="button" class="btn btn-danger">Delete</button>
         </a>
@@ -72,15 +102,11 @@
         <?php endforeach; ?>
   </tbody>
 </table>
-<?php if (isset($_SESSION["success"])) : ?>
-            <div class="alert alert-success" role="alert">
-  <?= $_SESSION["success"] ?>
+<?php if (isset($_SESSION["status"]) && $_SESSION["status"] === "modified") : ?>
+            <div class="alert alert-warning" role="alert">
+  <?= $_SESSION["message"] ?>
 </div>
-<?php endif; ?>      
-<?php if (isset($_SESSION["error"])) : ?>
-            <div class="alert alert-denger" role="alert">
-  <?= $_SESSION["error"] ?>
-</div>
+<?php unset($_SESSION['status']); unset($_SESSION['message']);?>
 <?php endif; ?>     
         </main>
     <footer>

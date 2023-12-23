@@ -45,11 +45,9 @@ class Redirector
         exit();
     }
 
-    // Redirect if $this->with method is not called
     public function __destruct() {
-        if (isset($this->path)) {
             header("Location: {$this->path}");
             exit();
-        }
     }
+    // Redirect if $this->with method is not called
 }

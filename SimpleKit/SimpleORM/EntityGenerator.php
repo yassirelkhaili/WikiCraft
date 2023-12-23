@@ -64,19 +64,17 @@ class EntityGenerator Extends Generator {
                         // Render the view for creating a new {$prefixSingular}
                         \$this->render('{$prefixSingular}/create');
                     }
-                
-                    public function store(object \$request) {
-                        // Validate the request data (assuming a simple validation here)
-                        \$data = \$request->all();
-                        
+             
+                    public function store(Request \$request) {
+                        \$data = \$request->getPostData();
                         // Create a new {$prefixSingular} using the {$prefix}
                         \$this->{$prefix}->create(\$data);
                 
                         // Redirect back to the index page with a success message (or handle differently based on your needs)
                         // You can also render a view or return a JSON response
-                        return redirect('/{$prefix}')->with(['success' => '{$prefixSingular} created successfully!']);  // Note the change here
+                        return redirect('/books')->with(['success' => 'book created successfully!']);  // Note the change here
                     }
-                
+
                     public function show(int \$id) {
                         // Fetch a specific {$prefixSingular} by ID using the {$prefix}
                         \$$prefixSingular = \$this->{$prefix}->getById(\$id);
@@ -92,16 +90,16 @@ class EntityGenerator Extends Generator {
                         // Render the view for editing the {$prefixSingular}
                         \$this->render('{$prefixSingular}/edit', ['{$prefixSingular}' => \$$prefixSingular]);
                     }
-                
-                    public function update(object \$request, int \$id) {
+
+                    public function update(Request \$request, int \$id) {
                         // Validate the request data (assuming a simple validation here)
                         \$data = \$request->all();
                         
-                        // Update the book using the BooksModal
+                        // Update the {$prefixSingular} using the {$prefix}Modal
                         \$this->{$prefix}->updateById(\$id, \$data);
                 
                         // Redirect back to the index page with a success message (or handle differently based on your needs)
-                        return redirect('/{$prefix}')->with(['success', '{$prefixSingular} updated successfully!']);
+                        return redirect('/{$prefix}')->with(['modified', '{$prefixSingular} has been updated!']);
                     }
                 
                     public function destroy(\$id) {
