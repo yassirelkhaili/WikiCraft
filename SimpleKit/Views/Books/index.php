@@ -102,11 +102,11 @@
         <?php endforeach; ?>
   </tbody>
 </table>
-<?php if (isset($_SESSION["status"]) && $_SESSION["status"] === "modified") : ?>
+<?php if (isset($_SESSION["modified"])) : ?>
             <div class="alert alert-warning" role="alert">
-  <?= $_SESSION["message"] ?>
+  <?= $_SESSION["modified"] ?>
 </div>
-<?php unset($_SESSION['status']); unset($_SESSION['message']);?>
+<?php unset($_SESSION['modified']); ?>
 <?php endif; ?>     
         </main>
     <footer>

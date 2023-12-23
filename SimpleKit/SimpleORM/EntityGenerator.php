@@ -93,7 +93,7 @@ class EntityGenerator Extends Generator {
 
                     public function update(Request \$request, int \$id) {
                         // Validate the request data (assuming a simple validation here)
-                        \$data = \$request->all();
+                        \$data = \$request->getPostData();
                         
                         // Update the {$prefixSingular} using the {$prefix}Modal
                         \$this->{$prefix}->updateById(\$id, \$data);
@@ -101,7 +101,7 @@ class EntityGenerator Extends Generator {
                         // Redirect back to the index page with a success message (or handle differently based on your needs)
                         return redirect('/{$prefix}')->with(['modified', '{$prefixSingular} has been updated!']);
                     }
-                
+                    
                     public function destroy(\$id) {
                         // Delete a specific {$prefixSingular} by ID using the {$prefix}
                         \$this->{$prefix}->deleteById(\$id);
