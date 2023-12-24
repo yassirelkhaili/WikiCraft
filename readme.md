@@ -63,7 +63,9 @@ composer install
 
 ### 4. Navigate to http://localhost/books for a demo crud project
 
-### 5. (optional) start typescript compilation
+### 5. Dont forget to setup the database connection (check the establishing connection guide down below for more info)
+
+### 6. (optional) start typescript compilation
 
 ```bash
 npm start
