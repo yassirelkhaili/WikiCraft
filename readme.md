@@ -1,22 +1,72 @@
-# 🚀 Simple ORM
+# 🚀 SimpleKit
 
 ## Introduction
 
 ```plaintext
-Welcome to the SimpleORM Project, an open source PHP ORM designed by me to be used in future 
-projects as well as master the behind the scene fundamentals of Object-Relational Mapping, 
-advanced PHP OOP concepts, and design patterns. 📚 This project serves as a practical 
-playground for me to further understand how ORMs work behind the scenes.
+🔥 Welcome to the SimpleKit! an open-source PHP framework that is meticulously crafted to harness the power of SimpleORM, offering developers a seamless experience in building robust web applications. 🌐 Dive deep into mastering intricate Object-Relational Mapping nuances🛠.
 ```
 
 ```plaintext
 This readme serves as the official documentation to this project. All information about how to 
-get started using SimpleORM is included in this readme.
+get started using SimpleKit with SimpleORM is included in this readme.
 ```
 
 ```plaintext
-Why should you use SimpleORM too? because it's blazingly fast. Plus it's open source and easy 
+Why should you use SimpleKit too? because it's blazingly fast. Plus it's open source and easy 
 to add new features to it as you wish in order to tailor it to your own needs as a developer.
+```
+
+# SimpleKit Installation Guide
+
+Follow these steps to install SimpleKit on your system:
+
+## Prerequisites
+
+- Ensure you have [Git](https://git-scm.com/) installed on your machine.
+- Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+- Ensure [Composer](https://getcomposer.org/) is installed on your system.
+
+## Installation Steps
+
+### 1. Clone the SimpleKit Repository
+
+Firstly, clone the SimpleKit repository to your local machine using Git:
+
+```bash
+git clone https://github.com/yassirelkhaili/SimpleKit.git
+```
+### 2. Navigate to the Project Directory
+
+Navigate to the cloned directory:
+
+```bash
+cd simplekit
+```
+
+### 3. Install npm Packages
+
+Inside the project directory, install the necessary npm packages:
+
+```bash
+npm install
+```
+
+### 3. Require Composer Dependencies
+
+Next, require the Composer dependencies by executing the following command:
+
+```bash
+composer install
+```
+
+### 3. Start up your apache server (Laragon, Xamp or Wamp) and set the host directory to the project's root
+
+### 4. Navigate to http://localhost/books for a demo crud project
+
+### 5. (optional) start typescript compilation
+
+```bash
+npm start
 ```
 
 ## Simple command line interface
@@ -24,8 +74,8 @@ to add new features to it as you wish in order to tailor it to your own needs as
 ### Introduction
 
 ```plaintext
-SimpleORM includes a simple command line interface called well... simple. It supports multiple 
-commands that make using simpleORM seamless.
+SimpleKit includes a simple command line interface called well... simple. It supports multiple 
+commands that make using SimpleKit seamless.
 ```
 
 ### Simple commands
@@ -45,11 +95,36 @@ php simple help
 - generate
 
 ```plaintext
-This command generates an entity representing a database table in the Models folder.It is often 
-used to efficiently create tables in order to later migrate them to a database later on.
+This command allows developers to create Models, Controllers or Entities serving multiple purposes within the application's architecture.
+```
+
+```plaintext
+1. **Models**: Models acts as an intermediary between the Database and the controller, harnessing the power of SimpleORM to enable efficient data manipulation and retrieval operations.
+Default location: SimpleKit/Models/
+```
+
+![Models](https://i.imgur.com/jcrjZ6O.png)
+   
+```plaintext
+2. **Controllers**: Controllers act as intermediaries between the model and view components of the application, facilitating the processing of user requests and directing the flow of data, they call Model methods and render the appropriate Views.
+Default location: SimpleKit/Controllers/
+```
+
+![Controller](https://i.imgur.com/50Tllhw.png)
+
+```plaintext
+3. **Entities**: Essentially, entities function as migrations or schemas that dictate the structure and attributes of database tables.
+Default location: SimpleKit/Database/Migrations
 ```
 
 Example use:
+
+```bash
+php generate:model User
+```
+```bash
+php generate:controller UserController
+```
 
 ```bash
 php generate:entity Users
@@ -58,7 +133,7 @@ php generate:entity Users
 - migrate
 
 ```plaintext
-This command migrate an entity from your Models folder to your database.
+This command migrates an entity from your Migrations folder to your database.
 ```
 
 Example use:
@@ -70,13 +145,13 @@ php migrate:entity Users
 - destroy
 
 ```plaintext
-This command deletes an entity from the Models folder.
+This command deletes a Model, Controller or Entity from the applications structure.
 ```
 
 Example use:
 
 ```bash
-php destroy:entity Users
+php destroy:model User
 ```
 
 - rollback
@@ -94,7 +169,7 @@ php rollback:entity Users
 ## Entities
 
 ```plaintext
-Entities are simply classes that represent tables
+Entities are simply classes that represent tables.
 ```
 
 ### Attributes
@@ -109,16 +184,16 @@ You can edit/delete them or make your own.
 
 ```plaintext
 Every Entity has its own getPropertyConfig method. 
-This is SimpleORM gets all the information about how it should create the table in the database.
+This is SimpleKit gets all the information about how it should create the table in the database.
 ```
 
 ![getPropertyConfig](https://i.imgur.com/zMP4rBy.png)
 
 - Important:
 ```plaintext
-If SimpleORM doesn't find the getPropertyConfig method defined inside the entity class it will 
+If SimpleKit doesn't find the getPropertyConfig method defined inside the entity class it will 
 proceed to simply generate the table using the properties instead using default values for each 
-column.
+column. (experimental)
 ```
 
 - supported column types:
@@ -147,7 +222,7 @@ Example Use:
 ## Establishing a connection
 
 ```plaintext
-SimpleORM offers a simple way to establish a connection to your database.
+SimpleKit offers a simple way to establish a connection to your database.
 Simply fill up the fields in the .env.db file in the project root with your database 
 credentials and you are set.
 ```
@@ -163,6 +238,62 @@ DB_USER = "root"
 DB_PWORD = ""
 ```
 
+## Routing
+
+```plaintext
+Routers are responsible for the SimpleKit applications's routes.
+They take a route URI, the controller responsible for the route and the corresponding method.
+Check the BaseRouter for the background code.
+Default Location: SimpleKit/Routers/
+```
+
+![Routers](https://i.imgur.com/5Aq71rD.png)
+
+## Helpers
+
+```plaintext
+SimpleKit features a number of helper classes and functions that serve many perposes vital to the flow of a SimpleKit application.
+Default Location: SimpleKit/Helpers/
+```
+
+### Redirector
+
+```plaintext
+A function typically used in Controllers to redirect to the Views and is capable of creating session data for example to send a comfirmation message to the user.
+```
+
+Example use:
+
+```php
+   public function store() {
+        // Redirect back to the index page with a success message (or handle differently based on your needs)
+        // You can also render a view or return a JSON response
+        return redirect('/books')->with(['success' => 'book created successfully!']); 
+    }
+```
+
+### Request
+
+```plaintext
+A class Used to get POST data from a form in controllers before storing it in the database using the corresponding model.
+```
+
+Example use:
+
+```php
+   public function store(Request $request) {
+        $data = $request->getPostData();
+        // Create a new book using the books
+        $this->books->create($data);
+    }
+```
+
+# SimpleORM
+
+```plaintext
+SimpleORM, is an open source PHP ORM designed by me to be used in future projects as well as master the behind the scene fundamentals of Object-Relational Mapping, advanced PHP OOP concepts, and design patterns. 📚 This project serves as a practical playground for me to further understand how ORMs work behind the scenes.
+```
+
 ## Entity Mapper:
 
 ### Definition
@@ -171,7 +302,7 @@ DB_PWORD = ""
 SimpleORM uses an Entity Mapper which is a class that handles entity mapping in 
 order to get all of its properties and types that way SimpleORM knows how to create 
 the appropriate database table.
-Default location: SimpleORM/src/Utils/EntityMapper.php
+Default location: SimpleKit/SimpleORM/MigrationMapper.php
 ```
 
 ## Entity Generator:
@@ -180,8 +311,8 @@ Default location: SimpleORM/src/Utils/EntityMapper.php
 
 ```plaintext
 SimpleORM uses an Entity Generator which is a class that handles entity generation 
-and puts it in the Models folder.
-Default location: SimpleORM/src/Utils/EntityGenerator.php
+and puts it in the Migrations folder.
+Default location: SimpleKit/SimpleORM/EntityGenerator.php
 ```
 
 ## Query Generator:
@@ -191,7 +322,7 @@ Default location: SimpleORM/src/Utils/EntityGenerator.php
 ```plaintext
 SimpleORM uses a Query Generator which is simply the chef that cooks up all 
 of the queries and serves them to the Entity Manager.
-Default location: SimpleORM/src/SimpleORM/QueryGenerator.php
+Default location: SimpleKit/SimpleORM/QueryGenerator.php
 ```
 
 ## Entity Manager:
@@ -203,7 +334,7 @@ SimpleORM uses an Entity Manager which is the class you will be interacting with
 almost all the time. It's simply the server that takes your order to the kitchen 
 then serves you the food. and by order I mean SimpleORM methods/queries and by your 
 food I mean data/records from the database.
-Default location: SimpleORM/src/SimpleORM/EntityManager.php
+Default location: SimpleORM/SimpleORM/EntityManager.php
 ```
 
 ## How to use SimpleORM
@@ -211,9 +342,9 @@ Default location: SimpleORM/src/SimpleORM/EntityManager.php
 ### require Enity Manager Class
 
 ```php
-require "./src/SimpleORM/EntityManager.php";
+require_once "./vendor/autoload.php";
 
-use EntityManager\EntityManager;
+use SimpleKit\SimpleORM\EntityManager;
 ```
 
 ### instantiate a new Entity Manager Object
@@ -397,4 +528,3 @@ Example use:
 ```php
 $entity->fetchAll()->where("id", 51)->orderBy(["userID"], "DESC")->get();
 ```
-# SimpleFramework
