@@ -40,6 +40,7 @@ class EntityGenerator Extends Generator {
 
                 use function SimpleKit\Helpers\\redirect;
                 use SimpleKit\Models\\{$prefixUppercase};
+                use SimpleKit\Helpers\Request;
 
                 require __DIR__ . "/../Helpers/Redirector.php";
                 
@@ -81,6 +82,11 @@ class EntityGenerator Extends Generator {
                 
                         // Render the view and pass the {$prefixSingular} data to it
                         \$this->render('{$prefixSingular}/show', ['{$prefixSingular}]' => \$$prefixSingular]);
+                        /*
+                        with javascript:
+                        http_response_code(200);
+                        echo json_encode(\$book);
+                        */
                     }
                 
                     public function edit(int \$id) {
@@ -99,15 +105,15 @@ class EntityGenerator Extends Generator {
                         \$this->{$prefix}->updateById(\$id, \$data);
                 
                         // Redirect back to the index page with a success message (or handle differently based on your needs)
-                        return redirect('/{$prefix}')->with(['modified', '{$prefixSingular} has been updated!']);
+                        return redirect('/{$prefix}')->with(['modified' => '{$prefixSingular} has been updated!']);
                     }
-                    
+
                     public function destroy(\$id) {
                         // Delete a specific {$prefixSingular} by ID using the {$prefix}
                         \$this->{$prefix}->deleteById(\$id);
                 
                         // Redirect back to the index page with a success message (or handle differently based on your needs)
-                        return redirect('/{$prefix}')->with(['success', '{$prefixSingular} updated successfully!']);
+                        return redirect('/{$prefix}')->with(['destroy' => '{$prefixSingular} was deleted']);
                     }
                 
                     // You can add more controller methods as needed to handle other {$prefixSingular}-related functionalities

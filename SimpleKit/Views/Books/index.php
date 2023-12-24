@@ -107,7 +107,19 @@
   <?= $_SESSION["modified"] ?>
 </div>
 <?php unset($_SESSION['modified']); ?>
-<?php endif; ?>     
+<?php endif; ?>   
+<?php if (isset($_SESSION["success"])) : ?>
+            <div class="alert alert-success" role="alert">
+  <?= $_SESSION["success"] ?>
+</div>
+<?php unset($_SESSION['success']); ?>
+<?php endif; ?>
+<?php if (isset($_SESSION["destroy"])) : ?>
+            <div class="alert alert-danger" role="alert">
+  <?= $_SESSION["destroy"] ?>
+</div>
+<?php unset($_SESSION['destroy']); ?>
+<?php endif; ?> 
         </main>
     <footer>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

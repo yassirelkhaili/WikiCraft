@@ -57,8 +57,6 @@ function handleEditButtonClick (event: MouseEvent): void {
     });        
         }
     }
-
-
 }
 
 function updateFormAction(form: HTMLFormElement, id: string): void {
