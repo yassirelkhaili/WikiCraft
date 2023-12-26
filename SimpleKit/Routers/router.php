@@ -13,6 +13,8 @@ $router->addRoute('/books/edit/{id}', BooksController::class, 'edit');
 $router->addRoute('/books/update/{id}', BooksController::class, 'update');
 $router->addRoute('/books/destroy/{id}', BooksController::class, 'destroy');
 
+// Add more routes here
+
 $uri = $_SERVER['REQUEST_URI'];
 
 try {
@@ -20,5 +22,3 @@ try {
 } catch (\Exception $e) {
     echo "Error: " . $e->getMessage();
 }
-
-// Add more routes here
