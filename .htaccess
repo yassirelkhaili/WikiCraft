@@ -1,2 +1,4 @@
-RewriteEngine On
-RewriteRule ^.*$ public/index.php [L]
+RewriteEngine On 
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteCond %{REQUEST_URI} !^/vendor/
+RewriteRule ^(.*)$ public/index.php [QSA,L]

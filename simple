@@ -13,12 +13,12 @@ $command_array = explode(":", $command_args[0]);
 $command_interface = $command_array[0];
 
 if ($command_array[0] === "help") {
-    $available_interfaces = ["generate", "migrate", "destroy", "rollback"];
+    $available_interfaces = ["create", "migrate", "destroy", "rollback"];
     $available_arguments = ["entity", "controller", "model"];
 
     echo "\nAvailable interfaces: " . implode(', ', $available_interfaces) . "\n";
     echo "Available arguments: " . implode(', ', $available_arguments) . "\n";
-    echo "Example command: " . "php simple generate:entity <entityname>\n";
+    echo "Example command: " . "php simple create:entity <entityname>\n";
     echo "PS: rollback and migrate are only available for entities";
     exit();
 } else if ($argc > 4 || $argc < 3) {
@@ -57,7 +57,7 @@ switch ($command_interface) {
                 exit("Command argument not recognized");
         }
         break;
-    case "generate":
+    case "create":
         switch ($command_argument) {
             case "entity":
                 EntityGenerator::generate($class_name, EntityType::migration);
