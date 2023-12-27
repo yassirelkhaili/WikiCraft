@@ -65,7 +65,9 @@ composer install
 
 ### 5. Dont forget to setup the database connection (check the establishing connection guide down below for more info)
 
-### 6. (optional) start typescript compilation
+### 6. Dont forget to import the database sql or create a new schema in your database using SimpleORM Entities/Migrations, The default sql required for the demo crud project is located in the project's root directory
+
+### 7. (optional) start typescript compilation
 
 ```bash
 npm start
