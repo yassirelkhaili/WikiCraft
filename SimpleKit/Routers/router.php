@@ -3,6 +3,7 @@
 namespace SimpleKit\Routers;
 
 use SimpleKit\Controllers\BooksController;
+use SimpleKit\Controllers\HomeController;
 
 $router = new BaseRouter();
 
@@ -14,6 +15,8 @@ $router->addRoute('/books/update/{id}', BooksController::class, 'update');
 $router->addRoute('/books/destroy/{id}', BooksController::class, 'destroy');
 
 // Add more routes here
+
+$router->addRoute('/', HomeController::class, 'index');
 
 $uri = $_SERVER['REQUEST_URI'];
 

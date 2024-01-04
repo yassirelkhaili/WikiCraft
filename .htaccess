@@ -1,4 +1,10 @@
-RewriteEngine On 
+RewriteEngine On
+
+RewriteCond %{DOCUMENT_ROOT}/public/frontend/build/static/media/$1 -f
+RewriteRule ^static/media/(.+)$ /public/frontend/build/static/media/$1 [L]
+
 RewriteCond %{REQUEST_URI} !^/public/
 RewriteCond %{REQUEST_URI} !^/vendor/
+RewriteCond %{REQUEST_URI} !^/static/
+
 RewriteRule ^(.*)$ public/index.php [QSA,L]

@@ -4,11 +4,5 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= $cssurl ?>">
-    <title>Books Page</title>
+    <title>Home Page</title>
 </head>
-<body>
-  <h1>Books Page</h1>
-<div id="root"></div>
-<script src="<?= $jsurl ?>"></script>
-</body>
-</html>
