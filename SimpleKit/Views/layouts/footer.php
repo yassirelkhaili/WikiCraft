@@ -1,3 +1,5 @@
 <script src="<?= $jsurl ?>"></script>
 </body>
-</html>
+<footer>
+
+</footer>

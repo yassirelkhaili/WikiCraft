@@ -130,8 +130,6 @@ class EntityGenerator Extends Generator {
                 $entity_content = <<<PHP
             <?php
         
-            require_once dirname(__DIR__) . "/SimpleORM/MigrationMapper.php";
-        
             use SimpleKit\SimpleORM\Migration;
         
             class $entity_name extends Migration {

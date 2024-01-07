@@ -1,10 +1,8 @@
 <?php
 
-require_once dirname(__DIR__) . "/SimpleORM/MigrationMapper.php";
-
 use SimpleKit\SimpleORM\Migration;
 
-class Stairs extends Migration {
+class Tag extends Migration {
     /**
      * @var int
      *
