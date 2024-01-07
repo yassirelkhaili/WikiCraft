@@ -12,16 +12,17 @@ class HomeController extends BaseController {
     
     protected $home;  // This translates to home
     
-    // public function __construct() {
-    //     // Instantiate the home and assign it to the protected property
-    //     $this->home = new Home();
-    // }
+    public function __construct() {
+        // Instantiate the home and assign it to the protected property
+        $this->home = new Home();
+    }
 
     public function index() {
         // Fetch all users using the home
         // $home = $this->home->getAll();
         // Render the view and pass the home data to it
-        $this->render("index");
+        $users = $this->home->getAll();
+        $this->render("index", $users, "WebCraft | Home");
     }
 
     public function create() {

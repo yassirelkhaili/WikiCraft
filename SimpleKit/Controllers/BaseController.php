@@ -24,9 +24,12 @@ class BaseController {
         return file_exists($fullPath) ? $fullPath : '';
     }
 
-    protected function render(string $view, array $data = []) {
-        $data = array_merge($data, ['jsurl' => $this->getReactContent("js/")], ['cssurl' => $this->getReactContent("css/")]);
+    protected function render(string $view, array $data = [], string $title = '') {
+        $title = $title ?: $_ENV["APP_NAME"];
+        $data = array_merge(['content' => $data], ['jsurl' => $this->getReactContent("js/")], ['cssurl' => $this->getReactContent("css/")], ['pageTitle' => $title]);
         extract($data);
+        include dirname(__DIR__) . "/Views/layouts/header.php";
         include dirname(__DIR__) . "/Views/$view.php";
+        include dirname(__DIR__) . "/Views/layouts/footer.php";
     }
 }
