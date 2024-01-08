@@ -1,10 +1,8 @@
 <?php
 
-require_once dirname(__DIR__) . "/SimpleORM/MigrationMapper.php";
-
 use SimpleKit\SimpleORM\Migration;
 
-class Stairs extends Migration {
+class Tag extends Migration {
     /**
      * @var int
      *
@@ -38,8 +36,7 @@ class Stairs extends Migration {
     public static function getPropertyConfig(): array {
         return [
             'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
-            'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
-            'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
+            'name' => ['type' => 'varchar', 'length' => 20, 'notNull' => true],
         ];
     }
 }

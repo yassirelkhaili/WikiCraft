@@ -2,13 +2,9 @@
 
 namespace SimpleKit\SimpleORM;
 
-use ReflectionClass, ReflectionProperty;
+use SimpleKit\SimpleORM\Migration;
 
-abstract class Migration {
-    public static function getPropertyConfig(): array {
-        return [];
-    }
- }
+use ReflectionClass, ReflectionProperty;
 
 class MigrationMapper {
     private Migration $entity;

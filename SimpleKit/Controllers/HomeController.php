@@ -12,27 +12,34 @@ class HomeController extends BaseController {
     
     protected $home;  // This translates to home
     
-    public function __construct() {
-        // Instantiate the home and assign it to the protected property
-        $this->home = new Home();
-    }
+    // public function __construct() {
+    //     // Instantiate the home and assign it to the protected property
+    //     $this->home = new Home();
+    // }
 
-    public function index() {
+    public function renderHome() {
         // Fetch all users using the home
         // $home = $this->home->getAll();
         // Render the view and pass the home data to it
-        $users = $this->home->getAll();
-        $this->render("index", $users, "WebCraft | Home");
+        $this->render("home", [], "WebCraft | Home");
+    }
+
+    public function renderLogin() {
+        $this->render('Auth/login', [], "WebCraft | Login");
+    }
+
+    public function renderRegister() {
+        $this->render('Auth/register', [], "WebCraft | Register");
     }
 
     public function create() {
-        // Render the view for creating a new hom
-        $this->render('hom/create');
+        // Render the view for creating a new home
+        $this->render('home/create');
     }
 
     public function store(Request $request) {
         $data = $request->getPostData();
-        // Create a new hom using the home
+        // Create a new home using the home
         $this->home->create($data);
 
         // Redirect back to the index page with a success message (or handle differently based on your needs)
