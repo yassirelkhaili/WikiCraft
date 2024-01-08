@@ -36,8 +36,9 @@ class User extends Migration {
     public static function getPropertyConfig(): array {
         return [
             'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
-            'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
+            'username' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
             'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
+            'password' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
         ];
     }
 }

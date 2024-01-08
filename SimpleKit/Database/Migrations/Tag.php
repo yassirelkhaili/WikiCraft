@@ -36,8 +36,7 @@ class Tag extends Migration {
     public static function getPropertyConfig(): array {
         return [
             'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
-            'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
-            'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
+            'name' => ['type' => 'varchar', 'length' => 20, 'notNull' => true],
         ];
     }
 }
