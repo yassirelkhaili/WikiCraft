@@ -27,9 +27,13 @@
     <img src="../../public/frontend/src/images/brandlogo.webp" alt="WebCraft logo" class="h-8 w-28">
 </div>
 <div class="flex justify-center items-center gap-3">
-<button type="button" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Sign Up</button>
-<button class="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:border-4 focus:border-blue-200 border-blue-700">
+<a href="/login">
+<button type="button" class="border border-blue-700 focus:ring-4 font-medium rounded text-sm px-5 py-2.5 text-center text-slate-50">Sign In</button>
+</a>
+<a href="/register">
+<button class="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
   Register
 </button>
+</a>
 </div>
 </header>

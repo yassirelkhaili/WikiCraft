@@ -4,7 +4,7 @@ import brandlogo from "../images/brandlogo.webp";
 const Login = () => {
   return (
     <>
-    <section className="h-screen pt-28">
+    <section className="h-screen pt-20">
   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
   <a href="/" className="flex items-center mb-6 text-2xl font-semibold">
           <img className="h-8 w-28 mr-4" src={brandlogo} alt="logo"></img>
@@ -17,12 +17,12 @@ const Login = () => {
               <form className="space-y-4 md:space-y-6">
                   <div>
                       <label htmlFor="email" className="block mb-2 text-sm font-medium text-slate-50">Email</label>
-                      <input type="email" name="email" id="email" className="sm:text-sm rounded-lg block w-full p-2 focus:border-blue-600 focus:ring-blue-700 bg-gray-700 border-gray-600 placeholder-gray-400 text-slate-50" placeholder="name@company.com" required>
+                      <input type="email" name="email" id="email" className="sm:text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring focus:border-primary-600 bg-gray-700 border-gray-600 placeholder-gray-400 text-slate-50" placeholder="name@company.com" required autoComplete="on">
                       </input>
                   </div>
                   <div>
                       <label htmlFor="password" className="block mb-2 text-sm font-medium text-slate-50">Password</label>
-                      <input type="password" name="password" id="password" placeholder="••••••••" className="border sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-slate-50 focus:ring-blue-5000" required>
+                      <input type="password" name="password" id="password" placeholder="••••••••" className="sm:text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring focus:border-primary-600 bg-gray-700 border-gray-600 placeholder-gray-400 text-slate-50" required autoComplete="current-password">
                       </input>
                   </div>
                   <div className="flex items-center justify-between">

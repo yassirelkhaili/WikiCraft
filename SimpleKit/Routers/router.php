@@ -10,8 +10,13 @@ $router = new BaseRouter();
 // Add more routes here
 
 $router->addRoute('/', HomeController::class, 'renderHome');
-$router->addRoute('/login', AuthController::class,'renderLogin');
-$router->addRoute('/register', AuthController::class,'renderRegister');
+$router->addRoute('/login', HomeController::class,'renderLogin');
+$router->addRoute('/register', HomeController::class,'renderRegister');
+
+// authentication routes
+
+$router->addRoute('/authorize', AuthController::class,'authenticate');
+$router->addRoute('/validate', AuthController::class,'validate');
 
 $uri = $_SERVER['REQUEST_URI'];
 

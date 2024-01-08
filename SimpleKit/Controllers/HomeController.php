@@ -24,6 +24,14 @@ class HomeController extends BaseController {
         $this->render("home", [], "WebCraft | Home");
     }
 
+    public function renderLogin() {
+        $this->render('Auth/login', [], "WebCraft | Login");
+    }
+
+    public function renderRegister() {
+        $this->render('Auth/register', [], "WebCraft | Register");
+    }
+
     public function create() {
         // Render the view for creating a new home
         $this->render('home/create');

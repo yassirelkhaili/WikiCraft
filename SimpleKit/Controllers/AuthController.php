@@ -17,17 +17,9 @@ class AuthController extends BaseController {
     //     $this->auth = new Auth();
     // }
 
-    public function renderLogin() {
-        $this->render('Auth/login', [], "WebCraft | Login");
-    }
 
-    public function renderRegister() {
-        $this->render('Auth/register', [], "WebCraft | Register");
-    }
-
-    public function create() {
-        // Render the view for creating a new aut
-        $this->render('aut/create');
+    public function authenticate() {
+        
     }
 
     public function store(Request $request) {
