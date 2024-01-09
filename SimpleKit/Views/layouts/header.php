@@ -21,19 +21,35 @@
   </script>
     <title><?= $pageTitle ?></title>
 </head>
-<body>
-<header class="flex px-6 justify-between items-center h-20 border-b-[1px] border-border_color bg-main_header">
+<body className="bg-main_header">
+<header class="absolute w-full flex px-6 justify-between items-center h-20 border-b-[1px] border-border_color">
 <div>
     <img src="../../public/frontend/src/images/brandlogo.webp" alt="WebCraft logo" class="h-8 w-28">
 </div>
 <div class="flex justify-center items-center gap-3">
-<a href="/login">
-<button type="button" class="border border-blue-700 focus:ring-4 font-medium rounded text-sm px-5 py-2.5 text-center text-slate-50">Sign In</button>
-</a>
-<a href="/register">
-<button class="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
-  Register
-</button>
+<?php if (isset($_SESSION["session_token"])): ?>
+  <a href="/create">
+    <button class="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+      Craft
+    </button>
+  </a>
+  <a href="/logout">
+    <button type="button" class="border border-blue-700 focus:ring-4 font-medium rounded text-sm px-5 py-2.5 text-center text-slate-50">
+      Logout
+    </button>
+  </a>
+<?php else: ?>
+  <a href="/login">
+    <button type="button" class="border border-blue-700 focus:ring-4 font-medium rounded text-sm px-5 py-2.5 text-center text-slate-50">
+      Sign In
+    </button>
+  </a>
+  <a href="/register">
+    <button class="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+      Register
+    </button>
+  </a>
+<?php endif; ?>
 </a>
 </div>
 </header>

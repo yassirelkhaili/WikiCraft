@@ -3,10 +3,7 @@
 namespace SimpleKit\Controllers;
 
 use function SimpleKit\Helpers\redirect;
-use SimpleKit\Models\Home;
 use SimpleKit\Helpers\Request;
-
-require __DIR__ . "/../Helpers/Redirector.php";
 
 class HomeController extends BaseController {
     
@@ -30,6 +27,10 @@ class HomeController extends BaseController {
 
     public function renderRegister() {
         $this->render('Auth/register', [], "WebCraft | Register");
+    }
+
+    public function renderDashboard() {
+        $this->render('Dashboard/dashboard', [], "WebCraft | Dashboard");
     }
 
     public function create() {

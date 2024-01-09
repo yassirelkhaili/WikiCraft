@@ -150,8 +150,8 @@ class QueryGenerator
 
     public function generateCountQuery(): string
     {
-        $query = "SELECT COUNT(*) as count FROM {$this->entity_name};";
-        return $query;
+        $query = "SELECT COUNT(*) as count FROM {$this->entity_name}";
+        return $this->chainedQuery .= $query;
     }
 
     public function setOrderByConditions(array $fields, $direction = "ASC"): void

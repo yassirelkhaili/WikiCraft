@@ -1,4 +1,4 @@
-{
+{ 
         "autoload": {
             "psr-4": {
                 "SimpleKit\\": "SimpleKit/"

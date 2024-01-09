@@ -24,6 +24,13 @@ class BaseController {
         return file_exists($fullPath) ? $fullPath : '';
     }
 
+    private function generateCsrfToken () {
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        return $_SESSION['csrf_token'];
+    }
+
     protected function render(string $view, array $data = [], string $title = '') {
         $title = $title ?: $_ENV["APP_NAME"];
         $data = array_merge(['content' => $data], ['jsurl' => $this->getReactContent("js/")], ['cssurl' => $this->getReactContent("css/")], ['pageTitle' => $title]);

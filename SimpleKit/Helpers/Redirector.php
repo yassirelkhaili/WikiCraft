@@ -2,9 +2,6 @@
 
 namespace SimpleKit\Helpers;
 
-// Start the session (if not already started)
-session_start();
-
 /**
  * Global helper function to initiate redirection.
  *
