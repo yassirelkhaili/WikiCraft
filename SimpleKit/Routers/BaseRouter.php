@@ -7,15 +7,20 @@ use SimpleKit\Helpers\Request;
 class BaseRouter {
     protected $routes = [];
 
-    public function addRoute(string $route, string $controller, string $action, Array $middleware = null) {
-        $this->routes[$route] = ['controller' => $controller, 'action' => $action, 'middleware' => $middleware];
+    public function addRoute(string $route, string $controller, string $action, $middleware = null, string $method = "handle") {
+        $this->routes[$route] = ['controller' => $controller, 'action' => $action, 'middleware' => $middleware, 'method' => $method];
     }
 
     public function dispatch(string $uri) {
         foreach ($this->routes as $route => $routeDetails) {
-            if (isset($routeDetails['middleware'])) {
-                $middlewareClass = $routeDetails['middleware']['middleware'];
-                $middlewareClass::handle();
+            if (!is_null($routeDetails['middleware']) && $_SERVER["REQUEST_URI"] === $route) {
+                $middlewareClass = $routeDetails['middleware'];
+                $methodName = $routeDetails['method'];
+            if (method_exists($middlewareClass, $methodName)) {
+                $middlewareClass::$methodName();
+            } else {
+                throw new \Exception("Method $methodName does not exist in middleware class $middlewareClass");
+            }
             }
             $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([a-zA-Z0-9_]+)', $route);
             

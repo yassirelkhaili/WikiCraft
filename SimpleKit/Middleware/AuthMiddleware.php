@@ -14,7 +14,19 @@ class AuthMiddleware {
         // If session token is not set, redirect to login
         if (!isset($_SESSION['session_token']) || $_SESSION['user_role'] !== 'admin') {
             redirect(isset($_SESSION['session_token']) ? '/' : '/login');
-            exit();
         }        
+    }
+
+    public static function handleCraftPage() {
+        if ($_SERVER['REQUEST_URI'] === '/login' || $_SERVER['REQUEST_URI'] === '/dashboard') {
+            return;
+        }
+
+        if (!isset($_SESSION['session_token'])) {
+            redirect('/login');
+        }
+        if ($_SESSION['user_role'] === 'admin') { 
+            redirect('/dashboard');
+    }
     }
 }

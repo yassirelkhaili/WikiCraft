@@ -21,18 +21,27 @@
   </script>
     <title><?= $pageTitle ?></title>
 </head>
-<body className="bg-main_header">
-<header class="absolute w-full flex px-6 justify-between items-center h-20 border-b-[1px] border-border_color">
+<body className="main_background_color">
+<header class="absolute w-full flex px-6 justify-between items-center h-20 border-b-[1px] border-border_color bg-main_header">
 <div>
     <img src="../../public/frontend/src/images/brandlogo.webp" alt="WebCraft logo" class="h-8 w-28">
 </div>
 <div class="flex justify-center items-center gap-3">
 <?php if (isset($_SESSION["session_token"])): ?>
-  <a href="/create">
-    <button class="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
-      Craft
-    </button>
-  </a>
+  <?php if ($_SESSION['user_role'] === 'admin'): ?>
+    <a href="/dashboard">
+      <button class="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+        Dashboard
+      </button>
+    </a>
+  <?php else: ?>
+    <a href="/craftwiki">
+      <button class="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+        Craft
+      </button>
+    </a>
+  <?php endif; ?>
+  
   <a href="/logout">
     <button type="button" class="border border-blue-700 focus:ring-4 font-medium rounded text-sm px-5 py-2.5 text-center text-slate-50">
       Logout

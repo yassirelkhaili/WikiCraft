@@ -4,6 +4,7 @@ namespace SimpleKit\Routers;
 
 use SimpleKit\Controllers\HomeController;
 use SimpleKit\Controllers\AuthController;
+use SimpleKit\Middleware\AuthMiddleware;
 use SimpleKit\Middleware\Cors;
 
 //add cors using middleware
@@ -29,7 +30,8 @@ $router->addRoute('/logout', AuthController::class,'logout');
 
 //protected routes
 
-$router->addRoute('/dashboard', HomeController::class,'renderDashboard', ['middleware' => 'SimpleKit\Middleware\AuthMiddleware']);
+$router->addRoute('/dashboard', HomeController::class,'renderDashboard', AuthMiddleware::class);
+$router->addRoute('/craftwiki', HomeController::class,'renderCraftwiki', AuthMiddleware::class, 'handleCraftPage');
 
 $uri = $_SERVER['REQUEST_URI'];
 

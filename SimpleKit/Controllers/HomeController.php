@@ -33,6 +33,10 @@ class HomeController extends BaseController {
         $this->render('Dashboard/dashboard', [], "WebCraft | Dashboard");
     }
 
+    public function renderCraftwiki () {
+        $this->render('Dashboard/craftwiki', [], "WebCraft | Craft");
+    }
+
     public function create() {
         // Render the view for creating a new home
         $this->render('home/create');

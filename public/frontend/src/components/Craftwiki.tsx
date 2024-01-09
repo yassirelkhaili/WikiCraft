@@ -1,21 +1,68 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import Spinner from '../utils/Spinner';
+import Toast from '../utils/ToastComponent';
 
-const Dashboard = () => {
+type Tag = string;
+
+interface Wiki {
+    title: string;
+    content: string;
+    category: string;
+    author: string;
+    tags: Array<Tag>;
+}
+
+interface ResponseProps {
+    status: string;
+    message: string;
+    content?: Wiki;
+}
+
+const Craftwiki = () => {
+    const [wikis, setwikis] = useState<Wiki>();
+    const [isLoading, setisLoading] = useState<boolean>(false);
+
+    const fetchWikis = async(): Promise<ResponseProps> => {
+        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchwikis';
+    const options: {
+      method: string;
+      credentials: RequestCredentials;
+  } = {
+      method: 'GET',
+      credentials: 'include',
+  };
+        try {
+          const response: Response = await fetch (endpoint, options);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data: ResponseProps = await response.json();
+          return data;
+        } catch (error) {
+          throw new Error ("An Error has occured: " + error);
+        }
+      }
+
+      useEffect(() => {
+        setisLoading(true);
+        fetchWikis().then((response: ResponseProps) => setwikis(response.content)).catch((error) => console.error("there was an error" + error)).finally(() => setisLoading(false));
+      }, [])
+    
   return (
     <>
-   <section className='flex justify-center items-center'>
-                        <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-fit rounded-xl">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 rounded-xl">
+    <section className='flex justify-center items-center pt-60'>
+                        <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-fit">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" className="p-4">Wiki</th>
+                                    <th scope="col" className="p-4">Wiki Title</th>
                                     <th scope="col" className="p-4">Category</th>
                                     <th scope="col" className="p-4">Author</th>
                                     <th scope="col" className="p-4">tags</th>
                                     <th scope="col" className="p-4">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className='rounded-xl'>
-                                <tr className="border-b bg-[#454e5b] h-8 rounded-xl hover:bg-gray-600">
+                            <tbody>
+                                <tr className="border-b bg-[#454e5b] h-8 hover:bg-gray-600">
                                     <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div className="flex items-center mr-3">
                                             Apple iMac 27&#34;
@@ -58,4 +105,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Craftwiki
