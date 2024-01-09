@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import brandlogo from '../images/brandlogo.webp';
 import Spinner from '../utils/Spinner';
+import Toast from '../utils/ToastComponent';
 
 interface RegisterProps {
 username: string;
@@ -24,25 +25,35 @@ const Register = () => {
     const handleCheckbox = (): void => setisChecked(!isChecked);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target;
-        setRegisterInfo((prevRegisterInfo: RegisterProps | undefined) => {
-            if (!prevRegisterInfo) {
-              return {
-                username: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
-                terms: false,
-              };
-            }
-            return {...prevRegisterInfo, [name]: value};
-          });
-    }
+      const { name, value } = event.target;
+      setRegisterInfo((prevRegisterInfo: RegisterProps | undefined) => {
+        if (!prevRegisterInfo) {
+          return {
+            username: name === 'username' ? value : '',
+            email: name === 'email' ? value : '',
+            password: name === 'password' ? value : '',
+            confirmPassword: name === 'confirmPassword' ? value : '',
+            terms: false,
+          };
+        }
+        return { ...prevRegisterInfo, [name]: value };
+      });
+    };    
 
     const postRegisterInfo = async(): Promise<ResponseProps> => {
-      const endpoint: string = process.env.REACT_APP_HOST_NAME + '/authorize';
+      const endpoint: string = process.env.REACT_APP_HOST_NAME + '/registeruser';
+      const formData = new URLSearchParams();
+  if (registerInfo) {
+    Object.entries(registerInfo).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+  }
       const options = {
-
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData.toString(),
       };
       try {
         const response: Response = await fetch (endpoint, options);
@@ -52,7 +63,7 @@ const Register = () => {
         const data: ResponseProps = await response.json();
         return data;
       } catch (error) {
-        throw new Error ("An Error has Occured: " + error);
+        throw new Error ("An Error has occured: " + error);
       }
     }
 
@@ -60,12 +71,14 @@ const Register = () => {
         event.preventDefault();
         setisLoading(true);
         if(registerInfo) registerInfo.terms = isChecked; //update terms
-        postRegisterInfo().then((response: ResponseProps) => console.log(response)).catch((error) => console.error(error)).finally(() => setisLoading(false));
+        postRegisterInfo().then((response: ResponseProps) => {
+          
+        }).catch((error) => console.error(error)).finally(() => setisLoading(false));
     }
     
   return (
     <>
-      <section className="h-screen pt-20">
+      <section className="h-screen pt-40">
   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
   <a href="/" className="flex items-center mb-6 text-2xl font-semibold">
           <img className="h-8 w-28 mr-4" src={brandlogo} alt="logo"></img>
@@ -92,8 +105,8 @@ const Register = () => {
                       </input>
                   </div>
                   <div>
-                      <label htmlFor="repeatpassword" className="block mb-2 text-sm font-medium text-slate-50">Confirm Password</label>
-                      <input type="password" name="confirmPassword" id="repeatpassword" placeholder="••••••••" className="sm:text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring focus:border-primary-600 bg-gray-700 border-gray-600 placeholder-gray-400 text-slate-50" onChange={handleChange} required autoComplete="current-password">
+                      <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-slate-50">Confirm password</label>
+                      <input type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" className="sm:text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring focus:border-primary-600 bg-gray-700 border-gray-600 placeholder-gray-400 text-slate-50" onChange={handleChange} required autoComplete="current-password">
                       </input>
                   </div>
                   <div className="flex items-start">

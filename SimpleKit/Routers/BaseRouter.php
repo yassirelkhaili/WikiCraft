@@ -27,7 +27,6 @@ class BaseRouter {
                         $id = intval($matches[1]);
                         $controllerInstance->$actionName($request, $id);  // Pass the Request object and ID
                     } else {
-                    
                         $controllerInstance->$actionName($request);  // Pass the Request object
                     }
                 } else {

@@ -4,6 +4,13 @@ namespace SimpleKit\Routers;
 
 use SimpleKit\Controllers\HomeController;
 use SimpleKit\Controllers\AuthController;
+use SimpleKit\Middleware\Cors;
+
+//add cors using middleware
+
+Cors::handle();
+
+//initialize BaseRouter
 
 $router = new BaseRouter();
 
@@ -16,7 +23,9 @@ $router->addRoute('/register', HomeController::class,'renderRegister');
 // authentication routes
 
 $router->addRoute('/authorize', AuthController::class,'authenticate');
+$router->addRoute('/registeruser', AuthController::class,'register');
 $router->addRoute('/validate', AuthController::class,'validate');
+$router->addRoute('/logout', AuthController::class,'logout');
 
 $uri = $_SERVER['REQUEST_URI'];
 

@@ -4,7 +4,7 @@ import brandlogo from "../images/brandlogo.webp";
 const Login = () => {
   return (
     <>
-    <section className="h-screen pt-20">
+    <section className="h-screen pt-40">
   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
   <a href="/" className="flex items-center mb-6 text-2xl font-semibold">
           <img className="h-8 w-28 mr-4" src={brandlogo} alt="logo"></img>

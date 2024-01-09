@@ -130,8 +130,6 @@ class EntityManager
                 echo "An Error has occurred: " . $exception->getMessage();
             }
         }
-
-        echo "Batch insert operation was successful \n";
         return $this;
     }
 
@@ -233,19 +231,7 @@ class EntityManager
     public function count() {
         $this->query_generator = new QueryGenerator($this->entity_name);
         $query = $this->query_generator->generateCountQuery();
-        try {
-            $stmt = $this->db->prepare($query);
-            if (!$stmt) {
-                throw new Exception("Error preparing statement");
-            }
-            if (!$stmt->execute()) {
-                throw new Exception("Error creating record");
-            }
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result["count"];
-        } catch (Exception $exception) {
-            echo "An Error has occured: " . $exception->getMessage();
-        }
+        return $this;
     }
 
     public function orderBy(array $fields, $direction = "ASC"): self {
