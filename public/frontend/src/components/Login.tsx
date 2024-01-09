@@ -9,6 +9,12 @@ interface LoginProps {
     password: string;
 }
 
+declare global {
+    interface Window {
+      csrfToken: string;
+    }
+  }
+
 const Login = () => {
     const [registerInfo, setRegisterInfo] = useState<LoginProps | undefined>();
     const [isLoading, setisLoading] = useState<boolean>(false);
@@ -119,7 +125,7 @@ const Login = () => {
                       </div>
                       <a href="/recovery" className="text-sm font-medium hover:underline text-primary-500">Forgot password?</a>
                   </div>
-                  {isLoading ? <Spinner/> : <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-primary-800" disabled={isSubmitted}>Sign in</button>}
+                  {isLoading ? <Spinner/> : <button type="submit" className={`w-full text-white ${isSubmitted ? 'bg-gray-600' : 'bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 focus:ring-4 focus:outline-none'} font-medium rounded-lg text-sm px-5 py-2.5 text-center`} disabled={isSubmitted}>Sign in</button>}
                   <p className="text-sm font-light text-gray-400">
                       Don’t have an account yet? <a href="/register" className="font-medium text-primary-500 hover:underline ">Register</a>
                   </p>
