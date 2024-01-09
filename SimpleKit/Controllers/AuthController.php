@@ -6,8 +6,6 @@ use function SimpleKit\Helpers\redirect;
 use SimpleKit\Models\User;
 use SimpleKit\Helpers\Request;
 
-require __DIR__ . "/../Helpers/Redirector.php";
-
 class AuthController extends BaseController {
     
     protected $user;  // This translates to auth
@@ -25,7 +23,8 @@ class AuthController extends BaseController {
             $user = $this->user->getByEmail($userEmail)[0]; //database user data
             if (password_verify($request->getPostData("password"), $user["password"])) { //verify against user input
                 $sessionToken = bin2hex(random_bytes(32));
-                if (!isset($_SESSION['session_token'])) $_SESSION['session_token'] = $sessionToken; 
+                if (!isset($_SESSION['session_token'])) $_SESSION['session_token'] = $sessionToken;
+                if (!isset($_SESSION['user_role'])) $_SESSION['user_role'] = $user['role'];
                 echo json_encode(["status" => "success", "message" => "Login successful"]);
             } else {
                 echo json_encode(["status" => "password", "message" => "Incorrect Password"]);
@@ -36,7 +35,7 @@ class AuthController extends BaseController {
         exit();
     }
 
-    public function validate() {
+    public static function validate() {
         
     }
 
@@ -67,6 +66,10 @@ class AuthController extends BaseController {
     public function logout () {
         session_destroy();
         redirect('/');
+    }
+
+    public function generateCsrfToken () {
+
     }
 
     public function show(int $id) {

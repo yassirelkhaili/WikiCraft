@@ -41,8 +41,6 @@ class EntityGenerator Extends Generator {
                 use function SimpleKit\Helpers\\redirect;
                 use SimpleKit\Models\\{$prefixUppercase};
                 use SimpleKit\Helpers\Request;
-
-                require __DIR__ . "/../Helpers/Redirector.php";
                 
                 class {$prefixUppercase}Controller extends BaseController {
                     

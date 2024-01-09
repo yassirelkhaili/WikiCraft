@@ -7,12 +7,16 @@ use SimpleKit\Helpers\Request;
 class BaseRouter {
     protected $routes = [];
 
-    public function addRoute(string $route, string $controller, string $action) {
-        $this->routes[$route] = ['controller' => $controller, 'action' => $action];
+    public function addRoute(string $route, string $controller, string $action, Array $middleware = null) {
+        $this->routes[$route] = ['controller' => $controller, 'action' => $action, 'middleware' => $middleware];
     }
 
     public function dispatch(string $uri) {
         foreach ($this->routes as $route => $routeDetails) {
+            if (isset($routeDetails['middleware'])) {
+                $middlewareClass = $routeDetails['middleware']['middleware'];
+                $middlewareClass::handle();
+            }
             $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([a-zA-Z0-9_]+)', $route);
             
             if (preg_match("#^$pattern$#", $uri, $matches)) {

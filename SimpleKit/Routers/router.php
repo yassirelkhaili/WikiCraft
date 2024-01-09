@@ -27,6 +27,10 @@ $router->addRoute('/registeruser', AuthController::class,'register');
 $router->addRoute('/validate', AuthController::class,'validate');
 $router->addRoute('/logout', AuthController::class,'logout');
 
+//protected routes
+
+$router->addRoute('/dashboard', HomeController::class,'renderDashboard', ['middleware' => 'SimpleKit\Middleware\AuthMiddleware']);
+
 $uri = $_SERVER['REQUEST_URI'];
 
 try {
