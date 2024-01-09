@@ -31,6 +31,10 @@
             $this->entity->delete()->where("id", $id)->confirm();
         }
 
+        public function getByEmail(String $email) {
+            return $this->entity->fetchAll()->where("email", $email)->get();
+        }
+
         public function emailExists(String $email)
     {
         return $this->entity->count()->where("email", $email)->get(); 

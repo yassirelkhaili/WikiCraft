@@ -18,8 +18,22 @@ class AuthController extends BaseController {
     }
 
 
-    public function authenticate() {
-        
+    public function authenticate(Request $request) {
+        $userEmail = $request->getPostData("email");
+        $emailExists = $this->user->emailExists($userEmail)[0]["count"];
+        if ($emailExists === 1) {
+            $user = $this->user->getByEmail($userEmail)[0]; //database user data
+            if (password_verify($request->getPostData("password"), $user["password"])) { //verify against user input
+                $sessionToken = bin2hex(random_bytes(32));
+                if (!isset($_SESSION['session_token'])) $_SESSION['session_token'] = $sessionToken; 
+                echo json_encode(["status" => "success", "message" => "Login successful"]);
+            } else {
+                echo json_encode(["status" => "password", "message" => "Incorrect Password"]);
+            }
+        } else {
+            echo json_encode(["status" => "email", "message" => "This account doesn't exist"]);
+        }
+        exit();
     }
 
     public function validate() {
@@ -28,32 +42,31 @@ class AuthController extends BaseController {
 
     public function register(Request $request)
     {
-       $emailExists = $this->user->emailExists($request->getPostData("email"));
-        if (!$emailExists[0]["count"]) {
+       $emailExists = $this->user->emailExists($request->getPostData("email"))[0]["count"];
+        if ($emailExists === 0) {
             //validate info here
             if ($request->getPostData("password") !== $request->getPostData("confirmPassword")) {
                 echo json_encode(["status" => "passwords", "message" => "Passwords dont match"]);
                 exit();
             }
             try {
-                $this->user->create(["username" => $request->getPostData("username"), "email" => $request->getPostData("email"), "password" => $request->getPostData("password")]);
+                $hashedPassword = password_hash($request->getPostData("password"), PASSWORD_DEFAULT);
+                $this->user->create(["username" => $request->getPostData("username"), "email" => $request->getPostData("email"), "password" => $hashedPassword]);
             } catch (\Exception $e) {
                 echo json_encode(["status"=> "insert","message"=> "Error Registering an account" . $e->getMessage()]);
-                exit();
             }
             $sessionToken = bin2hex(random_bytes(32));
             $_SESSION['session_token'] = $sessionToken;
             echo json_encode(["status"=> "success","message"=> "Account Created Successfuly"]);
-            exit();
         } else {
             echo json_encode(["status" => "email", "message" => "Email address already exists"]);
-            exit();
         }
+    exit();
     }
 
     public function logout () {
         session_destroy();
-        $this->render('home');
+        redirect('/');
     }
 
     public function show(int $id) {

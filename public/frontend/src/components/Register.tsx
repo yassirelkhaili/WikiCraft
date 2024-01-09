@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import brandlogo from '../images/brandlogo.webp';
 import Spinner from '../utils/Spinner';
 import Toast from '../utils/ToastComponent';
@@ -11,7 +11,7 @@ confirmPassword: string;
 terms: boolean;
 }
 
-interface ResponseProps {
+export interface ResponseProps {
   status: string;
   message: string;
   content?: object;
@@ -21,6 +21,8 @@ const Register = () => {
     const [registerInfo, setRegisterInfo] = useState<RegisterProps | undefined>();
     const [isChecked, setisChecked] = useState<boolean>(false);
     const [isLoading, setisLoading] = useState<boolean>(false);
+    const [isSubmitted, setisSubmitted] = useState<boolean>(false);
+    const [toast, settoast] = useState<React.ReactNode>(<></>);
 
     const handleCheckbox = (): void => setisChecked(!isChecked);
 
@@ -48,13 +50,21 @@ const Register = () => {
       formData.append(key, value);
     });
   }
-      const options = {
-      method: 'POST',
-      headers: {
+  const options: {
+    method: string;
+    credentials: RequestCredentials; 
+    headers: {
+        'Content-Type': string;
+    };
+    body: string;
+} = {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData.toString(),
-      };
+    },
+    body: formData.toString(),
+};
       try {
         const response: Response = await fetch (endpoint, options);
         if (!response.ok) {
@@ -70,11 +80,26 @@ const Register = () => {
     const handleRegister = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         setisLoading(true);
+        setisSubmitted(true);
         if(registerInfo) registerInfo.terms = isChecked; //update terms
         postRegisterInfo().then((response: ResponseProps) => {
-          
+         switch(response.status) {
+          case 'success':
+          settoast(<Toast message={response.message} type='success'></Toast>);
+          setTimeout(() => window.location.href = process.env.REACT_APP_HOST_NAME + '/' as string, 1000);
+          break;
+          case 'insert':
+          settoast(<Toast message={response.message} type='danger'></Toast>);
+          setisSubmitted(false);
+          break;
+          default:
+          settoast(<Toast message={response.message} type='warning'></Toast>);
+          setisSubmitted(false);
+          break;
+         }
         }).catch((error) => console.error(error)).finally(() => setisLoading(false));
     }
+    
     
   return (
     <>
@@ -117,7 +142,7 @@ const Register = () => {
                         <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <a className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="/terms">Terms and Conditions</a></label>
                       </div>
                   </div>
-                  {isLoading ? <Spinner /> : <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-primary-800" disabled={isLoading}>Create an account</button>}
+                  {isLoading ? <Spinner /> : <button type="submit" className={`w-full text-white ${isSubmitted ? 'bg-gray-600' : 'bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 focus:ring-4 focus:outline-none'} font-medium rounded-lg text-sm px-5 py-2.5 text-center`} disabled={isSubmitted}>Create an account</button>}
                   <p className="text-sm font-light text-gray-400">
                       Already have an account? <a href="/login" className="font-medium text-primary-500 hover:underline ">Login here</a>
                   </p>
@@ -125,6 +150,7 @@ const Register = () => {
           </div>
       </div>
   </div>
+  {toast}
 </section>
     </>
   )
