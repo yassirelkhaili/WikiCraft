@@ -106,7 +106,7 @@ const Register = () => {
       <section className="h-screen pt-40">
   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
   <a href="/" className="flex items-center mb-6 text-2xl font-semibold">
-          <img className="h-8 w-28 mr-4" src={brandlogo} alt="logo"></img>
+          <img className="h-8 w-56 mr-4" src={brandlogo} alt="logo"></img>
       </a>
       <div className="w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

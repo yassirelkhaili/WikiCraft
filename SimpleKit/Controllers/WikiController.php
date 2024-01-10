@@ -10,18 +10,10 @@ use SimpleKit\Helpers\Request;
 class WikiController extends BaseController {
     
     protected $wiki;  // This translates to wiki
-    protected $category;
 
     public function __construct() {
         // Instantiate the wiki and assign it to the protected property
         $this->wiki = new Wiki();
-        $this->category = new Category();
-    }
-
-    public function renderCreateWiki() {
-        // Render the view for creating a new home
-        $categories = $this->category->getAll();
-        $this->render('Dashboard/createwiki', ['categories', $categories], "WebCraft | Create");
     }
 
     public function index() {
@@ -32,9 +24,20 @@ class WikiController extends BaseController {
         echo json_encode(["status" => "success", "message" => "Wikis fetched successfuly", "content" => $wikis]);
     }
 
-    public function create() {
+    public function create(Request $request) {
         // Render the view for creating a new wik
-        $this->render('wik/create');
+        $request->getPostData();
+        if (!isset($_SESSION['user_id'])) {
+            redirect('/login');
+            exit();
+        } 
+        $data = ['title' => $request->getPostData('title'), 'content' => $request->getPostData('content'), 'categoryID' => $request->getPostData('categoryID'), 'authorID' => $_SESSION['user_id']];
+        try {
+            $this->wiki->create($data);
+        } catch (\Exception $e) {
+            echo json_encode(["status" => "insert", "message" => "There was an error publishing the wiki"]);
+        }
+        echo json_encode(["status" => "success", "message" => "Wiki Created successfully"]);
     }
 
     public function store(Request $request) {
@@ -68,16 +71,6 @@ class WikiController extends BaseController {
         $this->render('wik/edit', ['wik' => $wik]);
     }
 
-    public function update(Request $request, int $id) {
-        // Validate the request data (assuming a simple validation here)
-        $data = $request->getPostData();
-        
-        // Update the wik using the wikiModal
-        $this->wiki->updateById($id, $data);
-
-        // Redirect back to the index page with a success message (or handle differently based on your needs)
-        return redirect('/wiki')->with(['modified' => 'wik has been updated!']);
-    }
 
     public function destroy($id) {
         // Delete a specific wik by ID using the wiki

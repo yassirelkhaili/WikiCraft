@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import Craftwiki from './components/Craftwiki';
+import Createwiki from './components/Createwiki';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path='/register' Component={Register}/>
       <Route path='/dashboard' Component={Dashboard}/>
       <Route path='/craftwiki' Component={Craftwiki}/>
+      <Route path='/createWiki' Component={Createwiki}/>
     </Routes>
     </BrowserRouter>
   );

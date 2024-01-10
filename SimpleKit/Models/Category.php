@@ -15,7 +15,7 @@
             $this->entity->saveMany([$data]);
         }
     
-        public function getAll() {
+        public function getAll(): Array {
             return $this->entity->fetchAll()->get();
         }
     

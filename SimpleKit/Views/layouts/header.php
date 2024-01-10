@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= $cssurl ?>">
-    <script src="../public/frontend/scripts/tags.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 <script>
     tailwind.config = {
@@ -25,7 +24,7 @@
 <body className="bg-gray-900">
 <header class="absolute w-full flex px-6 justify-between items-center h-20 border-b-[1px] border-border_color bg-main_header">
 <div>
-    <img src="../../public/frontend/src/images/brandlogo.webp" alt="WebCraft logo" class="h-8 w-28">
+    <img src="../../public/frontend/src/images/brandlogo.webp" alt="WebCraft logo" class="h-8 w-56">
 </div>
 <div class="flex justify-center items-center gap-3">
 <?php if (isset($_SESSION["session_token"])): ?>

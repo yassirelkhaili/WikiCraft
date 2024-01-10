@@ -4,6 +4,7 @@ namespace SimpleKit\Routers;
 
 use SimpleKit\Controllers\HomeController;
 use SimpleKit\Controllers\AuthController;
+use SimpleKit\Controllers\CategoryController;
 use SimpleKit\Controllers\WikiController;
 use SimpleKit\Middleware\AuthMiddleware;
 use SimpleKit\Middleware\Cors;
@@ -21,14 +22,13 @@ $router = new BaseRouter();
 $router->addRoute('/', HomeController::class, 'renderHome');
 $router->addRoute('/login', HomeController::class,'renderLogin');
 $router->addRoute('/register', HomeController::class,'renderRegister');
-$router->addRoute('/createwiki', WikiController::class,'renderCreateWiki', AuthMiddleware::class);
+$router->addRoute('/createwiki', HomeController::class,'renderCreateWiki', AuthMiddleware::class);
 // authentication routes
 
 $router->addRoute('/authorize', AuthController::class,'authenticate');
 $router->addRoute('/registeruser', AuthController::class,'register');
 $router->addRoute('/validate', AuthController::class,'validate');
 $router->addRoute('/logout', AuthController::class,'logout');
-
 //protected routes
 
 $router->addRoute('/dashboard', HomeController::class,'renderDashboard', AuthMiddleware::class);
@@ -37,6 +37,8 @@ $router->addRoute('/craftwiki', HomeController::class,'renderCraftwiki', AuthMid
 //crud
 
 $router->addRoute('/fetchwikis', WikiController::class, 'index');
+$router->addRoute('/postwiki', WikiController::class, 'create', AuthController::class);
+$router->addRoute('/fetchcategories', CategoryController::class,'fetchCategories');
 
 $uri = $_SERVER['REQUEST_URI'];
 

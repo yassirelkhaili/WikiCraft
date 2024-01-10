@@ -44,7 +44,17 @@ const Craftwiki = () => {
 
       useEffect(() => {
         setisLoading(true);
-        fetchWikis().then((response: ResponseProps) => setwikis(response.content)).catch((error) => settoast(<Toast message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
+        fetchWikis().then((response: ResponseProps) => {
+            setwikis(response.content);
+            switch(response.status) {
+                case 'success':
+                settoast(<Toast message={response.message} type='success'></Toast>);
+                break;
+                default:
+                settoast(<Toast message={response.message} type='warning'></Toast>);
+                break;
+               }
+        }).catch((error) => settoast(<Toast message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
       }, [])
     
   return (
@@ -53,13 +63,13 @@ const Craftwiki = () => {
    <div className='w-full flex justify-center items-start'>
    <a href="/createwiki">
       <button className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
-        Craft
+        Craft Wiki
       </button>
     </a>
    </div>
-                        <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-fit">
+                        <table className="text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg border">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
+                                <tr className=''>
                                     <th scope="col" className="p-4">Wiki Title</th>
                                     <th scope="col" className="p-4">Category</th>
                                     <th scope="col" className="p-4">Author</th>
