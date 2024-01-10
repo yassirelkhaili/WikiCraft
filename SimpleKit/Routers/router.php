@@ -21,7 +21,7 @@ $router = new BaseRouter();
 $router->addRoute('/', HomeController::class, 'renderHome');
 $router->addRoute('/login', HomeController::class,'renderLogin');
 $router->addRoute('/register', HomeController::class,'renderRegister');
-
+$router->addRoute('/createwiki', WikiController::class,'renderCreateWiki', AuthMiddleware::class);
 // authentication routes
 
 $router->addRoute('/authorize', AuthController::class,'authenticate');

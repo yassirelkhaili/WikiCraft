@@ -4,15 +4,24 @@ namespace SimpleKit\Controllers;
 
 use function SimpleKit\Helpers\redirect;
 use SimpleKit\Models\Wiki;
+use SimpleKit\Models\Category;
 use SimpleKit\Helpers\Request;
 
 class WikiController extends BaseController {
     
     protected $wiki;  // This translates to wiki
-    
+    protected $category;
+
     public function __construct() {
         // Instantiate the wiki and assign it to the protected property
         $this->wiki = new Wiki();
+        $this->category = new Category();
+    }
+
+    public function renderCreateWiki() {
+        // Render the view for creating a new home
+        $categories = $this->category->getAll();
+        $this->render('Dashboard/createwiki', ['categories', $categories], "WebCraft | Create");
     }
 
     public function index() {

@@ -37,11 +37,6 @@ class HomeController extends BaseController {
         $this->render('Dashboard/craftwiki', [], "WebCraft | Craft");
     }
 
-    public function create() {
-        // Render the view for creating a new home
-        $this->render('home/create');
-    }
-
     public function store(Request $request) {
         $data = $request->getPostData();
         // Create a new home using the home

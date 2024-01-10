@@ -49,7 +49,14 @@ const Craftwiki = () => {
     
   return (
     <>
-    <section className='flex justify-center items-center pt-60'>
+    <section className='flex justify-center items-center pt-60 flex-col gap-4'>
+   <div className='w-full flex justify-center items-start'>
+   <a href="/createwiki">
+      <button className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+        Craft
+      </button>
+    </a>
+   </div>
                         <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-fit">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
