@@ -14,7 +14,7 @@ interface ResponseProps {
         content?: Array<Category>;
 }
 
-type Tag = string;
+export type Tag = string;
 
 interface Wiki {
     title: string;

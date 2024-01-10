@@ -45,8 +45,8 @@ class WikiController extends BaseController {
             $tags = $request->getPostData("tags");
             foreach ($tags as $value) $lastInsertedTagIDs[] = $this->tag->create(['name' => $value]);
 
-            //assign tags to wiki
-            foreach ($tags as $value) $lastInsertedTagIDs[] = $this->tag->create(['name' => $value]);
+            //assign tags to wiki in wiki_tags pivot table
+            foreach ($tags as $index => $value) $this->wikitag->create(['wikiID' => $lastInsertedWikiID, 'tagID' => $lastInsertedTagIDs[$index][0]]);
         } catch (\Exception $e) {
             echo json_encode(["status" => "insert", "message" => "There was an error publishing the wiki"]);
         }

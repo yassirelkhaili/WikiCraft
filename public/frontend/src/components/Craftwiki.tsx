@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Spinner from '../utils/Spinner';
 import Toast from '../utils/ToastComponent';
+import { Tag } from './Createwiki';
 
 interface Wiki {
     title: string;
@@ -59,7 +60,7 @@ const Craftwiki = () => {
     
   return (
     <>
-    <section className='flex justify-center items-center pt-60 flex-col gap-4'>
+    <section className='flex justify-center items-center pt-48 flex-col gap-4'>
    <div className='w-full flex justify-center items-start'>
    <a href="/createwiki">
       <button className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
@@ -93,8 +94,15 @@ const Craftwiki = () => {
                                 </th>
                                 <td className="px-4 py-3 text-white">{wiki.category}</td>
                                 <td className="px-4 py-3 font-medium">{wiki.author}</td>
-                                <td className="px-4 py-3">
-                                    <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">{wiki.tags}</span>
+                                <td className={`px-4 py-3 ${wiki.tags && wiki.tags.split(',').length > 4 ? 'flex flex-wrap' : ''}`}>
+                                {wiki.tags && wiki.tags.split(',').map((tag, index) => (
+                                <span 
+                                key={index} 
+                                className={`${index > 0 && "ml-1"} bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300`}
+                                >
+                                {tag.trim()}
+                                </span>
+                                ))}
                                 </td>
                                 <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div className="flex items-center space-x-4">
