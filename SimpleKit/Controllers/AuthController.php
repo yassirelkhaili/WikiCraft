@@ -24,6 +24,7 @@ class AuthController extends BaseController {
             if (password_verify($request->getPostData("password"), $user["password"])) { //verify against user input
                 $sessionToken = bin2hex(random_bytes(32));
                 if (!isset($_SESSION['session_token'])) $_SESSION['session_token'] = $sessionToken;
+                if (!isset($_SESSION['user_id'])) $_SESSION['user_id'] = $this->user->getByEmail($request->getPostData("email"))[0]['id'];
                 if (!isset($_SESSION['user_role'])) $_SESSION['user_role'] = $user['role'];
                 echo json_encode(["status" => "success", "message" => "Login successful"]);
             } else {
@@ -56,6 +57,7 @@ class AuthController extends BaseController {
             }
             $sessionToken = bin2hex(random_bytes(32));
             $_SESSION['session_token'] = $sessionToken;
+            $_SESSION['user_id'] = $this->user->getByEmail($request->getPostData("email"))[0]['id'];
             echo json_encode(["status"=> "success","message"=> "Account Created Successfuly"]);
         } else {
             echo json_encode(["status" => "email", "message" => "Email address already exists"]);

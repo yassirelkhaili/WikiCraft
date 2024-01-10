@@ -85,6 +85,40 @@ class EntityManager
     }
 
     //create methods
+
+    public function raw(string $query, array $params = []): array
+    {
+        try {
+            $stmt = $this->db->prepare($query);
+            
+            // Bind parameters if provided
+            foreach ($params as $key => &$value) {
+                $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                $stmt->bindParam(":" . $key, $value, $paramType);
+            }
+            
+            if (!$stmt) {
+                throw new Exception("Error preparing statement");
+            }
+            
+            if (!$stmt->execute()) {
+                throw new Exception("Error executing raw query");
+            }
+            
+            // Fetch results as an associative array
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Flush resources
+            $stmt = null;
+    
+            return $results;
+            
+        } catch (Exception $exception) {
+            echo "An Error has occurred: " . $exception->getMessage();
+            return [];  // Return an empty array in case of error
+        }
+    }    
+ 
     public function save(): self
     {
         try {
@@ -107,31 +141,40 @@ class EntityManager
         $this->flush();
         return $this;
     }
-    public function saveMany(array $columns): self
+    public function saveMany(array $columns): array
     {
+        $lastInsertedIds = [];  // Store last inserted IDs
+    
         foreach ($columns as $item) {
             try {
                 $query = QueryGenerator::insertRecord($item, $this->entity_name);
                 $stmt = $this->db->prepare($query);
-
+    
                 foreach ($item as $key => $itemValue) {
                     $paramType = is_int($itemValue) ? PDO::PARAM_INT : PDO::PARAM_STR;
                     $stmt->bindValue(":" . $key, $itemValue, $paramType);
                 }
-
+    
                 if (!$stmt) {
                     throw new Exception("Error preparing statement");
                 }
-
+    
                 if (!$stmt->execute()) {
                     throw new Exception("Error creating records");
                 }
+    
+                // Get the last inserted ID for each item
+                $lastInsertedIds[] = $this->db->lastInsertId();
+    
             } catch (Exception $exception) {
                 echo "An Error has occurred: " . $exception->getMessage();
             }
         }
-        return $this;
+    
+        // Return the last inserted IDs array
+        return $lastInsertedIds;
     }
+    
 
     //fetch methods
     public function fetchAll(): self
