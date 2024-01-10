@@ -4,6 +4,7 @@ namespace SimpleKit\Routers;
 
 use SimpleKit\Controllers\HomeController;
 use SimpleKit\Controllers\AuthController;
+use SimpleKit\Controllers\WikiController;
 use SimpleKit\Middleware\AuthMiddleware;
 use SimpleKit\Middleware\Cors;
 
@@ -32,6 +33,10 @@ $router->addRoute('/logout', AuthController::class,'logout');
 
 $router->addRoute('/dashboard', HomeController::class,'renderDashboard', AuthMiddleware::class);
 $router->addRoute('/craftwiki', HomeController::class,'renderCraftwiki', AuthMiddleware::class, 'handleCraftPage');
+
+//crud
+
+$router->addRoute('/fetchwikis', WikiController::class, 'index');
 
 $uri = $_SERVER['REQUEST_URI'];
 

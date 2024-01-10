@@ -8,7 +8,7 @@
         private $entity;
     
         public function __construct() {
-            $this->entity = new EntityManager("Users");
+            $this->entity = new EntityManager("wiki");
         }
     
         public function create($data) {
@@ -17,6 +17,10 @@
     
         public function getAll() {
             return $this->entity->fetchAll()->get();
+        }
+
+        public function raw (string $query, array $params = []): array {
+            return $this->entity->raw($query, $params);
         }
     
         public function getById($id) {
