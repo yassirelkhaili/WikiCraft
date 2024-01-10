@@ -4,23 +4,19 @@
     
     use SimpleKit\SimpleORM\EntityManager;
     
-    class Wiki {
+    class Wikitags {
         private $entity;
     
         public function __construct() {
-            $this->entity = new EntityManager("wiki");
+            $this->entity = new EntityManager("wiki_tags");
         }
     
         public function create($data) {
-            return $this->entity->saveMany([$data]);
+            $this->entity->saveMany([$data]);
         }
     
         public function getAll() {
             return $this->entity->fetchAll()->get();
-        }
-
-        public function raw (string $query, array $params = []): array {
-            return $this->entity->raw($query, $params);
         }
     
         public function getById($id) {

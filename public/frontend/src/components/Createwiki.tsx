@@ -87,7 +87,11 @@ const Createwiki = () => {
               formData.append('title', wikiInfo.title);
               formData.append('content', wikiInfo.content);
               formData.append('categoryID', wikiInfo.categoryID.toString());
-              tags && formData.append('tags', JSON.stringify(tags));
+              if (tags && tags.length > 0) {
+                tags.forEach(tag => {
+                    formData.append('tags[]', tag);
+                });
+            }
           }
     const options: {
       method: string;

@@ -4,16 +4,22 @@ namespace SimpleKit\Controllers;
 
 use function SimpleKit\Helpers\redirect;
 use SimpleKit\Models\Wiki;
-use SimpleKit\Models\Category;
+use SimpleKit\Models\Wikitags;
+use SimpleKit\Models\Tag;
 use SimpleKit\Helpers\Request;
 
 class WikiController extends BaseController {
     
     protected $wiki;  // This translates to wiki
+    protected $tag;
+
+    protected $wikitag;
 
     public function __construct() {
         // Instantiate the wiki and assign it to the protected property
         $this->wiki = new Wiki();
+        $this->tag = new Tag();
+        $this->wikitag = new Wikitags();
     }
 
     public function index() {
@@ -33,7 +39,14 @@ class WikiController extends BaseController {
         } 
         $data = ['title' => $request->getPostData('title'), 'content' => $request->getPostData('content'), 'categoryID' => $request->getPostData('categoryID'), 'authorID' => $_SESSION['user_id']];
         try {
-            $this->wiki->create($data);
+            $lastInsertedWikiID = $this->wiki->create($data)[0];
+            //insert tags
+            $lastInsertedTagIDs = [];
+            $tags = $request->getPostData("tags");
+            foreach ($tags as $value) $lastInsertedTagIDs[] = $this->tag->create(['name' => $value]);
+
+            //assign tags to wiki
+            foreach ($tags as $value) $lastInsertedTagIDs[] = $this->tag->create(['name' => $value]);
         } catch (\Exception $e) {
             echo json_encode(["status" => "insert", "message" => "There was an error publishing the wiki"]);
         }
