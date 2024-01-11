@@ -94,10 +94,10 @@ const Craftwiki = () => {
                                 </th>
                                 <td className="px-4 py-3 text-white">{wiki.category}</td>
                                 <td className="px-4 py-3 font-medium">{wiki.author}</td>
-                                <td className={`px-4 py-3 ${wiki.tags && wiki.tags.split(',').length > 4 ? 'flex flex-wrap' : ''}`}>
-                                {wiki.tags && wiki.tags.split(',').map((tag, index) => (
+                                <td className={`py-3 max-w-[260px] ${wiki.tags && wiki.tags.split(',').length > 4 ? 'flex flex-wrap gap-1 justify-start items-center' : ''}`}>
+                                {wiki.tags && wiki.tags.split(',').map((tag: Tag, index: number) => (
                                 <span 
-                                key={index} 
+                                key={index}
                                 className={`${index > 0 && "ml-1"} bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300`}
                                 >
                                 {tag.trim()}
