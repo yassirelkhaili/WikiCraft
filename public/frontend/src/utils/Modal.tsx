@@ -91,5 +91,5 @@ const Modal = ({message, type, id, state} : ModalProps) => {
     </>
   )
 }
-
+//wefwe
 export default Modal
