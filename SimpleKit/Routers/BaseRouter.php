@@ -2,6 +2,7 @@
 
 namespace SimpleKit\Routers;
 
+use SimpleKit\Controllers\AuthController;
 use SimpleKit\Helpers\Request;
 
 class BaseRouter {
@@ -13,7 +14,8 @@ class BaseRouter {
 
     public function dispatch(string $uri) {
         foreach ($this->routes as $route => $routeDetails) {
-            if (!is_null($routeDetails['middleware']) && $_SERVER["REQUEST_URI"] === $route) {
+            if ($_SERVER['REQUEST_URI'] === $route) {
+                if (!is_null($routeDetails['middleware'])) {
                 $middlewareClass = $routeDetails['middleware'];
                 $methodName = $routeDetails['method'];
             if (method_exists($middlewareClass, $methodName)) {
@@ -56,5 +58,6 @@ class BaseRouter {
             // If no route is found for the URI, throw an exception
             throw new \Exception("No route found for URI: $uri");
     }
+}
 }
 }

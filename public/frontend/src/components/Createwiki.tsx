@@ -14,7 +14,7 @@ interface ResponseProps {
         content?: Array<Category>;
 }
 
-type Tag = string;
+export type Tag = string;
 
 interface Wiki {
     title: string;
@@ -127,15 +127,15 @@ const Createwiki = () => {
         postWikiInfo().then((response: ResponseProps) => {
          switch(response.status) {
           case 'success':
-          settoast(<Toast message={response.message} type='success'></Toast>);
+          settoast(<Toast structure='normal' message={response.message} type='success'></Toast>);
           setTimeout(() => window.location.href = process.env.REACT_APP_HOST_NAME + '/craftwiki' as string, 1000);
           break;
           case 'insert':
-          settoast(<Toast message={response.message} type='danger'></Toast>);
+          settoast(<Toast structure='normal' message={response.message} type='danger'></Toast>);
           setisSubmitted(false);
           break;
           default:
-          settoast(<Toast message={response.message} type='warning'></Toast>);
+          settoast(<Toast structure='normal' message={response.message} type='warning'></Toast>);
           setisSubmitted(false);
           break;
          }
@@ -148,13 +148,13 @@ const Createwiki = () => {
         setcategories(response.content);
         switch(response.status) {
             case 'success':
-            settoast(<Toast message={response.message} type='success'></Toast>);
+            settoast(<Toast structure='normal' message={response.message} type='success'></Toast>);
             break;
             default:
-            settoast(<Toast message={response.message} type='warning'></Toast>);
+            settoast(<Toast structure='normal' message={response.message} type='warning'></Toast>);
             break;
            }
-    }).catch((error) => settoast(<Toast message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
+    }).catch((error) => settoast(<Toast structure='normal' message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
       }, [])
       
   return (

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 
-interface ToastProps {
+interface ModalProps {
     state?: React.ReactNode
     message: string;
     id?: number;
@@ -9,7 +9,7 @@ interface ToastProps {
 }
 
 
-const Toast = ({message, type, id, state} : ToastProps) => {
+const Modal = ({message, type, id, state} : ModalProps) => {
     let toastIcon: React.ReactNode | React.ReactElement;
 
     switch (type) {
@@ -71,8 +71,8 @@ const Toast = ({message, type, id, state} : ToastProps) => {
 
   return (
     <>
-    <div>
-    <div id="toast" className="transform fixed right-8 bottom-[-6rem] transition ease-in-out opacity-0 hidden duration-150 items-center w-full max-w-xs p-4 mb-4 rounded-lg shadow text-gray-400 bg-gray-800" role="alert">
+    <div id="toast" className="flex-col gap-1 transform fixed right-8 bottom-[-6rem] transition ease-in-out opacity-0 hidden duration-150 items-center w-full max-w-xs p-4 mb-4 rounded-lg shadow text-gray-400 bg-gray-800" role="alert">
+    <div className='flex w-full justify-between items-center gap-2'>
     {toastIcon}
     <div className="ms-3 text-sm font-normal">{message}</div>
     <button type="button" className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-600 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close" onClick={handleToastClose}>
@@ -82,9 +82,14 @@ const Toast = ({message, type, id, state} : ToastProps) => {
         </svg>
     </button>
 </div>
+<div>
+<button className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+      Confirm
+    </button>
+</div>
     </div>
     </>
   )
 }
 
-export default Toast
+export default Modal

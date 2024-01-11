@@ -76,15 +76,15 @@ const Login = () => {
         postLoginInfo().then((response: ResponseProps) => {
          switch(response.status) {
           case 'success':
-          settoast(<Toast message={response.message} type='success'></Toast>);
+          settoast(<Toast structure='normal' message={response.message} type='success'></Toast>);
           setTimeout(() => window.location.href = process.env.REACT_APP_HOST_NAME + '/' as string, 1000);
           break;
           case 'insert':
-          settoast(<Toast message={response.message} type='danger'></Toast>);
+          settoast(<Toast structure='normal' message={response.message} type='danger'></Toast>);
           setisSubmitted(false);
           break;
           default:
-          settoast(<Toast message={response.message} type='warning'></Toast>);
+          settoast(<Toast structure='normal' message={response.message} type='warning'></Toast>);
           setisSubmitted(false);
           break;
          }
