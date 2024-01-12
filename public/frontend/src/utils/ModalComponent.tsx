@@ -1,4 +1,6 @@
 import React, {useEffect} from 'react'
+import { ResponseProps } from '../components/Register';
+import Toast from './ToastComponent';
 
 interface ModalProps {
     state?: React.ReactNode
@@ -69,6 +71,20 @@ const Modal = ({message, type, id, state} : ModalProps) => {
 
     useEffect(() => handleToastTrigger(), [state])
 
+    async function deleteWiki(): Promise<ResponseProps> {
+        const endPoint: string = process.env.REACT_APP_HOST_NAME + `/deletewiki/${id}`;
+        try {
+            const response: Response = await fetch(endPoint);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch data. Status: ${response.status}`);
+            }
+            const data: Promise<ResponseProps> = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error(`There was an error fetching the data: ${error}`);
+        }
+    }
+
   return (
     <>
     <div id="toast" className="flex-col gap-1 transform fixed right-8 bottom-[-6rem] transition ease-in-out opacity-0 hidden duration-150 items-center w-full max-w-xs p-4 mb-4 rounded-lg shadow text-gray-400 bg-gray-800" role="alert">
@@ -83,7 +99,7 @@ const Modal = ({message, type, id, state} : ModalProps) => {
     </button>
 </div>
 <div>
-<button className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+<button onClick={deleteWiki} className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
       Confirm
     </button>
 </div>
@@ -91,5 +107,5 @@ const Modal = ({message, type, id, state} : ModalProps) => {
     </>
   )
 }
-//wefw
+
 export default Modal

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Spinner from '../utils/Spinner';
 import Toast from '../utils/ToastComponent';
 import { Tag } from './Createwiki';
+import Modal from '../utils/ModalComponent';
 
 interface Wiki {
     id: number;
@@ -60,7 +61,7 @@ const Craftwiki = () => {
       }, [])
 
       const handleWikiDelete = (id: number) => {
-        settoast(<Toast state={toast} structure='modal' id={id} message="Click confirm to delete wiki" type='warning'></Toast>);
+        settoast(<Modal state={toast} structure='modal' id={id} message="Click confirm to delete wiki" type='warning'></Modal>);
       }
     
   return (
