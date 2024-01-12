@@ -76,7 +76,7 @@ const Modal = ({message, type, id, state} : ModalProps) => {
         try {
             const response: Response = await fetch(endPoint);
             if (!response.ok) {
-                throw new Error(`Failed to fetch data. Status: ${response.status}`);
+                throw new Error(`Failed to delete wiki. Status: ${response.status}`);
             }
             const data: Promise<ResponseProps> = await response.json();
             return data;
