@@ -26,7 +26,7 @@ $router->addRoute('/createwiki', HomeController::class,'renderCreateWiki', AuthM
 
 //wiki dynamic single page
 $router->addRoute('/wiki/{id}', HomeController::class,'show');
-
+$router->addRoute('/fetchWiki/{id}', HomeController::class,'fetch');
 //protected routes
 
 $router->addRoute('/dashboard', HomeController::class,'renderDashboard', AuthMiddleware::class);
@@ -44,7 +44,8 @@ $router->addRoute('/logout', AuthController::class,'logout');
 $router->addRoute('/fetchwikis', WikiController::class, 'index');
 $router->addRoute('/postwiki', WikiController::class, 'create', AuthMiddleware::class, 'handleCraftPage');
 $router->addRoute('/fetchcategories', CategoryController::class,'fetchCategories');
-$router->addRoute('/deletewiki/{id}', WikiController::class,'destroy');
+$router->addRoute('/deletewiki/{id}', WikiController::class,'destroy', AuthMiddleware::class, 'handleCraftPage');
+$router->addRoute('/edit/{id}', HomeController::class,'renderEdit', AuthMiddleware::class, 'handleCraftPage');
 
 $uri = $_SERVER['REQUEST_URI'];
 

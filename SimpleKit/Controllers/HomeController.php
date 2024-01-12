@@ -41,6 +41,10 @@ class HomeController extends BaseController {
         $this->render('Dashboard/createwiki', [], "WebCraft | Create");
     }
 
+    public function renderEdit() {
+        $this->render('Dashboard/edit', [], "WebCraft | Edit");
+    }
+
     public function store(Request $request) {
         $data = $request->getPostData();
         // Create a new home using the home
@@ -57,6 +61,19 @@ class HomeController extends BaseController {
 
         // Render the view and pass the hom data to it
         $this->render('wiki', ['wiki' => $wiki], "WebCraft | Wiki");
+        /*
+        with javascript:
+        http_response_code(200);
+        echo json_encode($book);
+        */
+    }
+
+    public function fetch($id) {
+        // Fetch a specific hom by ID using the home
+        $wiki = $this->wiki->raw("SELECT w.id, w.title, w.content, c.id as categoryID, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id WHERE w.id = 45 GROUP BY w.id, w.title, w.content, c.name, u.username;");
+
+        // Render the view and pass the hom data to it
+        echo json_encode(["status" => "success", "message" => "Wiki fetched successfuly", "content" => $wiki]);
         /*
         with javascript:
         http_response_code(200);

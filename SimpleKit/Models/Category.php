@@ -16,7 +16,7 @@
         }
     
         public function getAll(): Array {
-            return $this->entity->fetchAll()->get();
+            return $this->entity->fetchAll()->orderBy(["created_at"], "DESC")->get();
         }
     
         public function getById($id) {

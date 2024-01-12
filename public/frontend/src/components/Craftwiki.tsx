@@ -49,7 +49,7 @@ const Craftwiki = () => {
         setisLoading(true);
         fetchWikis().then((response: ResponseProps) => {
             setwikis(response.content);
-        }).catch((error) => settoast(<Toast structure='normal' message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
+        }).catch((error) => settoast(<Toast message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
       }
 
       useEffect(() => {
@@ -58,13 +58,13 @@ const Craftwiki = () => {
             setwikis(response.content);
             switch(response.status) {
                 case 'success':
-                settoast(<Toast structure='normal' message={response.message} type='success'></Toast>);
+                settoast(<Toast message={response.message} type='success'></Toast>);
                 break;
                 default:
-                settoast(<Toast structure='normal' message={response.message} type='warning'></Toast>);
+                settoast(<Toast message={response.message} type='warning'></Toast>);
                 break;
                }
-        }).catch((error) => settoast(<Toast structure='normal' message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
+        }).catch((error) => settoast(<Toast message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
       }, [])
 
       const handleWikiDelete = (id: number) => {
@@ -119,13 +119,13 @@ const Craftwiki = () => {
                                 </td>
                                 <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div className="flex items-center space-x-4">
-                                        <button type="button" data-drawer-target="drawer-update-product" data-drawer-show="drawer-update-product" aria-controls="drawer-update-product" className="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                        <a href={`${process.env.REACT_APP_HOST_NAME}/edit/${wiki.id}`} data-drawer-target="drawer-update-product" data-drawer-show="drawer-update-product" aria-controls="drawer-update-product" className="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 -ml-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
                                                 <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
                                             </svg>
                                             Edit
-                                        </button>
+                                        </a>
                                         <a href={`${process.env.REACT_APP_HOST_NAME}/wiki/${wiki.id}`} data-drawer-target="drawer-read-product-advanced" data-drawer-show="drawer-read-product-advanced" aria-controls="drawer-read-product-advanced" className="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-2 -ml-0.5">
                                                 <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />

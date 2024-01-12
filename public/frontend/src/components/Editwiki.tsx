@@ -14,16 +14,23 @@ interface ResponseProps {
         content?: Array<Category>;
 }
 
+interface WikiResponseProps {
+    status: string;
+    message: string;
+    content?: Array<Wiki>;
+}
+
 export type Tag = string;
 
 interface Wiki {
     title: string;
     content: string;
     categoryID: string;
+    tags?: string;
 }
 
 const Createwiki = () => {
-    const [wikiInfo, setwikiInfo] = useState<Wiki | undefined>();
+    const [wikiInfo, setwikiInfo] = useState<Wiki>();
     const [categories, setcategories] = useState<Array<Category>>();
     const [tags, settags] = useState<Array<Tag>>([]);
     const [isLoading, setisLoading] = useState<boolean>(false);
@@ -149,6 +156,30 @@ const Createwiki = () => {
         }).catch((error) => console.error(error)).finally(() => setisLoading(false));
       }
 
+      const fetchWikiInfo = async (): Promise<WikiResponseProps> => {
+        const path = window.location.pathname;
+        const parts = path.split('/');
+        const id = parts[parts.length - 1];
+        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchWiki/' + id;
+        const options: {
+          method: string;
+          credentials: RequestCredentials;
+      } = {
+          method: 'GET',
+          credentials: 'include',
+      };
+            try {
+              const response: Response = await fetch (endpoint, options);
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              const data: WikiResponseProps = await response.json();
+              return data;
+            } catch (error) {
+              throw new Error ("An Error has occured: " + error);
+            }
+      }
+
       useEffect(() => {
         setisLoading(true);
     fetchCategories().then((response: ResponseProps) => {
@@ -162,23 +193,29 @@ const Createwiki = () => {
             break;
            }
     }).catch((error) => settoast(<Toast message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
+    fetchWikiInfo().then((response: WikiResponseProps) => {
+        if (response.content && response.content[0].tags) {
+            setwikiInfo(response.content[0])
+            settags((response.content[0]).tags.split(','));
+        }
+    }).catch((error) => console.error(error));
       }, [])
       
   return (
     <>
     <section>
   <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-      <h2 className="mb-4 text-xl font-bold text-[#3B82F6]">Add Wiki</h2>
+      <h2 className="mb-4 text-xl font-bold text-[#3B82F6]">Edit Wiki</h2>
       <form>
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                   <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                  <input type="text" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Wiki title here" required onChange={handleChange}>
+                  <input type="text" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Wiki title here" value={wikiInfo?.title || ''} required onChange={handleChange}>
                   </input>
               </div>
               <div>
                   <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                  <select name='categoryID' id="category" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" onChange={handleChange} defaultValue='1'>
+                  <select name='categoryID' id="category" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" onChange={handleChange} value={wikiInfo?.categoryID}>
                 {categories && categories.map((category: Category, index: number) => <option value={category.id} key={index}>{category.name}</option>)}
                   </select>
 </div>
@@ -207,7 +244,7 @@ const Createwiki = () => {
               </div>
               <div className="sm:col-span-2">
                   <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Content</label>
-                  <textarea name="content" id="description" rows={8} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Wiki content here" onChange={handleChange}></textarea>
+                  <textarea name="content" id="description" rows={8} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Wiki content here" onChange={handleChange} value={wikiInfo?.content}></textarea>
               </div>
           </div>
           {isLoading ? <Spinner /> : <button type="button" className={`inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg ${isSubmitted ? 'bg-gray-600' : 'bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 focus:ring-4 focus:outline-none'}`} onClick={handleFormSubmission}>

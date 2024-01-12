@@ -24,7 +24,7 @@ class WikiController extends BaseController {
 
     public function index() {
         // Fetch all users using the wiki
-        $wikis = $this->wiki->raw("SELECT w.id, w.title, w.content, c.name AS category, u.username AS author, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id GROUP BY w.id, w.title, w.content, c.name, u.username;");
+        $wikis = $this->wiki->raw("SELECT w.id, w.title, w.content, c.name AS category, u.username AS author, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id GROUP BY w.id, w.title, w.content, c.name, u.username ORDER BY w.created_at DESC;");
 
         // Render the view and pass the wiki data to it
         echo json_encode(["status" => "success", "message" => "Wikis fetched successfuly", "content" => $wikis]);

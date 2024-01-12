@@ -91,13 +91,13 @@ const Modal = ({message, type, id, toast, settoast, updateFunction} : ModalProps
             updateFunction();
             switch(response.status) {
                 case 'success':
-                settoast(<Toast structure='normal' message={response.message} type='success'></Toast>);
+                settoast(<Toast message={response.message} type='success'></Toast>);
                 break;
                 case 'insert':
-                settoast(<Toast structure='normal' message={response.message} type='danger'></Toast>);
+                settoast(<Toast message={response.message} type='danger'></Toast>);
                 break;
                 default:
-                settoast(<Toast structure='normal' message={response.message} type='warning'></Toast>);
+                settoast(<Toast message={response.message} type='warning'></Toast>);
                 break;
                }
         }).catch((error) => console.error(error));
