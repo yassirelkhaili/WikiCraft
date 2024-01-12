@@ -39,8 +39,9 @@ $router->addRoute('/logout', AuthController::class,'logout');
 //crud
 
 $router->addRoute('/fetchwikis', WikiController::class, 'index');
-$router->addRoute('/postwiki', WikiController::class, 'create', AuthController::class);
+$router->addRoute('/postwiki', WikiController::class, 'create', AuthController::class, 'handleCraftPage');
 $router->addRoute('/fetchcategories', CategoryController::class,'fetchCategories');
+$router->addRoute('/deletewiki/{id}', WikiController::class,'destroy');
 
 $uri = $_SERVER['REQUEST_URI'];
 
