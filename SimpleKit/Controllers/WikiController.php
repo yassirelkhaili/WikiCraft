@@ -87,12 +87,15 @@ class WikiController extends BaseController {
 
     public function destroy($id) {
 
-        // Delete a specific wik by ID using the wiki
+        try {
+            // Delete a specific wik by ID using the wiki
         $this->wikitag->deleteById($id);
         $this->wiki->deleteById($id);
-
         // Redirect back to the index page with a success message (or handle differently based on your needs)
         echo json_encode(["status" => "success", "message" => "Wiki Deleted successfully"]);
+        } catch (\Exception $e) {
+        echo json_encode(["status" => "success", "message" => "There was an error deleting the wiki"]);
+        }
     }
 
     // You can add more controller methods as needed to handle other wik-related functionalities

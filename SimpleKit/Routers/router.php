@@ -24,6 +24,9 @@ $router->addRoute('/login', HomeController::class,'renderLogin');
 $router->addRoute('/register', HomeController::class,'renderRegister');
 $router->addRoute('/createwiki', HomeController::class,'renderCreateWiki', AuthMiddleware::class, 'handleCraftPage');
 
+//wiki dynamic single page
+$router->addRoute('/wiki/{id}', HomeController::class,'show');
+
 //protected routes
 
 $router->addRoute('/dashboard', HomeController::class,'renderDashboard', AuthMiddleware::class);
@@ -39,7 +42,7 @@ $router->addRoute('/logout', AuthController::class,'logout');
 //crud
 
 $router->addRoute('/fetchwikis', WikiController::class, 'index');
-$router->addRoute('/postwiki', WikiController::class, 'create', AuthController::class, 'handleCraftPage');
+$router->addRoute('/postwiki', WikiController::class, 'create', AuthMiddleware::class, 'handleCraftPage');
 $router->addRoute('/fetchcategories', CategoryController::class,'fetchCategories');
 $router->addRoute('/deletewiki/{id}', WikiController::class,'destroy');
 

@@ -3,15 +3,16 @@ import { ResponseProps } from '../components/Register';
 import Toast from './ToastComponent';
 
 interface ModalProps {
-    state?: React.ReactNode
+    toast: React.ReactNode;
+    settoast: React.Dispatch<React.SetStateAction<React.ReactNode>>;
     message: string;
-    id?: number;
-    structure: 'normal' | 'modal'; 
+    id?: number; 
     type: 'danger' | 'success' | 'warning';
+    updateFunction: () => void;
 }
 
 
-const Modal = ({message, type, id, state} : ModalProps) => {
+const Modal = ({message, type, id, toast, settoast, updateFunction} : ModalProps) => {
     let toastIcon: React.ReactNode | React.ReactElement;
 
     switch (type) {
@@ -69,7 +70,7 @@ const Modal = ({message, type, id, state} : ModalProps) => {
         }, 150);
     }
 
-    useEffect(() => handleToastTrigger(), [state])
+    useEffect(() => handleToastTrigger(), [toast])
 
     async function deleteWiki(): Promise<ResponseProps> {
         const endPoint: string = process.env.REACT_APP_HOST_NAME + `/deletewiki/${id}`;
@@ -78,11 +79,28 @@ const Modal = ({message, type, id, state} : ModalProps) => {
             if (!response.ok) {
                 throw new Error(`Failed to delete wiki. Status: ${response.status}`);
             }
-            const data: Promise<ResponseProps> = await response.json();
+            const data: Promise<ResponseProps> = response.json();
             return data;
         } catch (error) {
             throw new Error(`There was an error fetching the data: ${error}`);
         }
+    }
+
+    const handleWikiDelete = () => {
+        deleteWiki().then((response: ResponseProps) => {
+            updateFunction();
+            switch(response.status) {
+                case 'success':
+                settoast(<Toast structure='normal' message={response.message} type='success'></Toast>);
+                break;
+                case 'insert':
+                settoast(<Toast structure='normal' message={response.message} type='danger'></Toast>);
+                break;
+                default:
+                settoast(<Toast structure='normal' message={response.message} type='warning'></Toast>);
+                break;
+               }
+        }).catch((error) => console.error(error));
     }
 
   return (
@@ -99,7 +117,7 @@ const Modal = ({message, type, id, state} : ModalProps) => {
     </button>
 </div>
 <div>
-<button onClick={deleteWiki} className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+<button onClick={handleWikiDelete} className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
       Confirm
     </button>
 </div>

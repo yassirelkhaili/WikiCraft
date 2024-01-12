@@ -28,7 +28,7 @@
         }
     
         public function deleteById($id) {
-            $this->entity->delete()->where("id", $id)->confirm();
+            $this->entity->delete()->where("wikiID", $id)->confirm();
         }
     
         // Add other methods as needed to interact with the Users entity using SimpleORM
