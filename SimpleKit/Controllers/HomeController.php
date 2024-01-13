@@ -70,7 +70,7 @@ class HomeController extends BaseController {
 
     public function fetch($id) {
         // Fetch a specific hom by ID using the home
-        $wiki = $this->wiki->raw("SELECT w.id, w.title, w.content, c.id as categoryID, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id WHERE w.id = 45 GROUP BY w.id, w.title, w.content, c.name, u.username;");
+        $wiki = $this->wiki->raw("SELECT w.id, w.title, w.content, c.id as categoryID, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id WHERE w.id = :id GROUP BY w.id, w.title, w.content, c.name, u.username;", ['id' => $id]);
 
         // Render the view and pass the hom data to it
         echo json_encode(["status" => "success", "message" => "Wiki fetched successfuly", "content" => $wiki]);

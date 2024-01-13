@@ -76,12 +76,10 @@ class WikiController extends BaseController {
         */
     }
 
-    public function edit(int $id) {
+    public function edit(Request $request, $id) {
         // Fetch a specific wik by ID using the wiki
-        $wik = $this->wiki->getById($id);
-
-        // Render the view for editing the wik
-        $this->render('wik/edit', ['wik' => $wik]);
+        $this->wiki->updateById($id, ['title' => $request->getPostData("title"), 'content' => $request->getPostData("content"),'categoryID' => $request->getPostData("categoryID"),]);
+        exit($request->getPostData('title'));
     }
 
 
@@ -89,7 +87,8 @@ class WikiController extends BaseController {
 
         try {
             // Delete a specific wik by ID using the wiki
-        $this->wikitag->deleteById($id);
+        $tagIdsToDelete = $this->wikitag->raw("SELECT tagID FROM wiki_tags WHERE wikiID = :wikiId", ['wikiId' => $id]);
+        foreach ($tagIdsToDelete as $tagID) $this->tag->deleteById($tagID['tagID']);
         $this->wiki->deleteById($id);
         // Redirect back to the index page with a success message (or handle differently based on your needs)
         echo json_encode(["status" => "success", "message" => "Wiki Deleted successfully"]);

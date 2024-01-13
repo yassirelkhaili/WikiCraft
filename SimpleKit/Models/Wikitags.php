@@ -14,6 +14,10 @@
         public function create($data) {
             $this->entity->saveMany([$data]);
         }
+
+         public function raw (string $query, array $params = []): array {
+            return $this->entity->raw($query, $params);
+        }
     
         public function getAll() {
             return $this->entity->fetchAll()->get();

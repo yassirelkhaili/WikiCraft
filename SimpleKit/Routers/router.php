@@ -43,6 +43,7 @@ $router->addRoute('/logout', AuthController::class,'logout');
 
 $router->addRoute('/fetchwikis', WikiController::class, 'index');
 $router->addRoute('/postwiki', WikiController::class, 'create', AuthMiddleware::class, 'handleCraftPage');
+$router->addRoute('/editwiki/{id}', WikiController::class, 'edit', AuthMiddleware::class, 'handleCraftPage');
 $router->addRoute('/fetchcategories', CategoryController::class,'fetchCategories');
 $router->addRoute('/deletewiki/{id}', WikiController::class,'destroy', AuthMiddleware::class, 'handleCraftPage');
 $router->addRoute('/edit/{id}', HomeController::class,'renderEdit', AuthMiddleware::class, 'handleCraftPage');

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import Toast from '../utils/ToastComponent';
 import Spinner from '../utils/Spinner';
 
@@ -37,7 +37,11 @@ const Createwiki = () => {
     const [toast, settoast] = useState<React.ReactNode>(<></>);
     const [inputValue, setInputValue] = useState<string>('');
     const [isSubmitted, setisSubmitted] = useState<boolean>(false);
-
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    const id = parts[parts.length - 1];
+    const wikiID = useRef(id);
+    
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(event.target.value);
     };
@@ -93,7 +97,7 @@ const Createwiki = () => {
       
 
       const postWikiInfo = async(): Promise<ResponseProps> => {
-        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/postwiki';
+        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/editwiki/' + wikiID.current;
         const formData = new URLSearchParams();
         if (wikiInfo) {
               formData.append('title', wikiInfo.title);
@@ -157,10 +161,7 @@ const Createwiki = () => {
       }
 
       const fetchWikiInfo = async (): Promise<WikiResponseProps> => {
-        const path = window.location.pathname;
-        const parts = path.split('/');
-        const id = parts[parts.length - 1];
-        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchWiki/' + id;
+        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchWiki/' + wikiID.current;
         const options: {
           method: string;
           credentials: RequestCredentials;
@@ -247,9 +248,11 @@ const Createwiki = () => {
                   <textarea name="content" id="description" rows={8} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Wiki content here" onChange={handleChange} value={wikiInfo?.content}></textarea>
               </div>
           </div>
-          {isLoading ? <Spinner /> : <button type="button" className={`inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg ${isSubmitted ? 'bg-gray-600' : 'bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 focus:ring-4 focus:outline-none'}`} onClick={handleFormSubmission}>
-              Add Wiki
+          <div className='mt-4 sm:mt-6'>
+          {isLoading ? <Spinner /> : <button type="button" className={`inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white rounded-lg ${isSubmitted ? 'bg-gray-600' : 'bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 focus:ring-4 focus:outline-none'}`} onClick={handleFormSubmission}>
+              Edit Wiki
           </button>}
+          </div>
       </form>
   </div>
   {toast}
