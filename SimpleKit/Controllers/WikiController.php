@@ -32,7 +32,6 @@ class WikiController extends BaseController {
 
     public function create(Request $request) {
         // Render the view for creating a new wik
-        $request->getPostData();
         if (!isset($_SESSION['user_id'])) {
             redirect('/login');
             exit();
@@ -77,9 +76,22 @@ class WikiController extends BaseController {
     }
 
     public function edit(Request $request, $id) {
-        // Fetch a specific wik by ID using the wiki
-        $this->wiki->updateById($id, ['title' => $request->getPostData("title"), 'content' => $request->getPostData("content"),'categoryID' => $request->getPostData("categoryID"),]);
-        exit($request->getPostData('title'));
+       try {
+         // Fetch a specific wik by ID using the wiki
+         $this->wiki->updateById($id, ['title' => $request->getPostData("title"), 'content' => $request->getPostData("content"),'categoryID' => $request->getPostData("categoryID")]);
+         //delete old tags
+         $tagIdsToDelete = $this->wikitag->raw("SELECT tagID FROM wiki_tags WHERE wikiID = :wikiId", ['wikiId' => $id]);
+         foreach ($tagIdsToDelete as $tagID) $this->tag->deleteById($tagID['tagID']);
+         // add new tags
+         $lastInsertedTagIDs = [];
+             $tags = $request->getPostData("tags");
+             foreach ($tags as $value) $lastInsertedTagIDs[] = $this->tag->create(['name' => $value]);
+             //assign tags to wiki in wiki_tags pivot table
+             foreach ($tags as $index => $value) $this->wikitag->create(['wikiID' => $id, 'tagID' => $lastInsertedTagIDs[$index][0]]);
+             echo json_encode(["status" => "success", "message" => "Wiki edited successfully"]);
+       } catch (\Exception $e) {
+        echo json_encode(["status" => "insert", "message" => "There was an error editing the wiki"]);
+       }
     }
 
 
