@@ -32,7 +32,6 @@ const Home = () => {
   const [wikis, setwikis] = useState<Array<Wiki>>();
     const [isLoading, setisLoading] = useState<boolean>(false);
     const [categories, setcategories] = useState<Array<Category>>();
-    const [searchInput, setsearchInput] = useState<string>('');
     const [searchCategory, setsearchCategory] = useState<string>('');
     const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -114,9 +113,12 @@ const Home = () => {
     searchDropDown && searchDropDown.classList.toggle('hidden');
   }
 
-  const removeSearchResult = (): void => {
+  const removeSearchResult = (event: React.FocusEvent<HTMLInputElement>): void => {
     const searchDropDown = document.getElementById("search-result") as HTMLDivElement;
-    (searchDropDown && !searchDropDown.classList.contains("hidden")) && searchDropDown.classList.add('hidden');
+    const isChildElement = event.relatedTarget && event.currentTarget.contains(event.relatedTarget);
+    if (!isChildElement) {
+      (searchDropDown && !searchDropDown.classList.contains("hidden")) && searchDropDown.classList.add('hidden');
+    }
   }
 
   const filteredWikis = wikis
@@ -159,7 +161,7 @@ const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>): void => 
             <div id="search-result" className="hidden absolute z-10 top-[3rem] left-[3rem] bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 py-2">
             {filteredWikis.length > 0 ? (
               filteredWikis.slice(0, 5).map((wiki: Wiki, index: number) => (
-                <a 
+                <a
                   key={index} 
                   className="inline-flex w-full px-4 py-2 text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" 
                   href={`${process.env.REACT_APP_HOST_NAME}/wiki/${wiki.id}`}
