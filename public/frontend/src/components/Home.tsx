@@ -34,6 +34,7 @@ const Home = () => {
     const [categories, setcategories] = useState<Array<Category>>();
     const [searchInput, setsearchInput] = useState<string>('');
     const [searchCategory, setsearchCategory] = useState<string>('');
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     const fetchCategories = async(): Promise<CategoryResponseProps> => {
       const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchcategories';
@@ -108,6 +109,28 @@ const Home = () => {
     dropdownBtn.textContent = searchCategory === '' ? 'All categories' : searchCategory;
   }
 
+  const displaySearchResults = (): void => {
+    const searchDropDown = document.getElementById("search-result") as HTMLDivElement;
+    searchDropDown && searchDropDown.classList.toggle('hidden');
+  }
+
+  const removeSearchResult = (): void => {
+    const searchDropDown = document.getElementById("search-result") as HTMLDivElement;
+    (searchDropDown && !searchDropDown.classList.contains("hidden")) && searchDropDown.classList.add('hidden');
+  }
+
+  const filteredWikis = wikis
+  ? wikis.filter((wiki: Wiki) => {
+      const isCategoryMatch: boolean = searchCategory === '' ? true : searchCategory === wiki.category;
+      const isNameMatch: boolean = wiki.title.toLowerCase().includes(searchQuery.toLowerCase());
+      const tagsArray: Array<string> = wiki.tags.split(',');
+      const isTagMatch: boolean = tagsArray.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      return isCategoryMatch && (isNameMatch || isTagMatch);
+    })
+  : [];
+
+const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>): void => setSearchQuery(event.target.value);
+
   return (
     <>
     <section className="bg-white dark:bg-gray-900 pt-40 px-8 sm:px-32">
@@ -131,8 +154,23 @@ const Home = () => {
             })}
             </ul>
         </div>
-        <div className="relative w-full">
-            <input type="search" id="search-dropdown" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search for Wikis..." required></input>
+        <div className="relative w-full" onBlur={removeSearchResult}>
+            <input type="search" id="search-dropdown" className="outline-none block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search for Wikis..." required onFocus={displaySearchResults} onChange={handleSearchInput}></input>
+            <div id="search-result" className="hidden absolute z-10 top-[3rem] left-[3rem] bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 py-2">
+            {filteredWikis.length > 0 ? (
+              filteredWikis.slice(0, 5).map((wiki: Wiki, index: number) => (
+                <a 
+                  key={index} 
+                  className="inline-flex w-full px-4 py-2 text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" 
+                  href={`${process.env.REACT_APP_HOST_NAME}/wiki/${wiki.id}`}
+                >
+                  {wiki.title}
+                </a>
+              ))
+            ) : (
+              <div className="text-bold inline-flex w-full px-4 py-2 text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">No results found</div>
+            )}
+            </div>
         </div>
     </div>
        <button className="flex gap-1 jutify-center items-center bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700" onClick={updateWikis}>
