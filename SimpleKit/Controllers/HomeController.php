@@ -4,15 +4,15 @@ namespace SimpleKit\Controllers;
 
 use function SimpleKit\Helpers\redirect;
 use SimpleKit\Helpers\Request;
-
+use SimpleKit\Models\Wiki;
 class HomeController extends BaseController {
     
     protected $home;  // This translates to home
-    
-    // public function __construct() {
-    //     // Instantiate the home and assign it to the protected property
-    //     $this->home = new Home();
-    // }
+    protected $wiki;
+    public function __construct() {
+        // Instantiate the home and assign it to the protected property
+        $this->wiki = new Wiki();
+    }
 
     public function renderHome() {
         // Fetch all users using the home
@@ -41,6 +41,10 @@ class HomeController extends BaseController {
         $this->render('Dashboard/createwiki', [], "WebCraft | Create");
     }
 
+    public function renderEdit() {
+        $this->render('Dashboard/edit', [], "WebCraft | Edit");
+    }
+
     public function store(Request $request) {
         $data = $request->getPostData();
         // Create a new home using the home
@@ -51,12 +55,28 @@ class HomeController extends BaseController {
         return redirect('/books')->with(['success' => 'book created successfully!']);  // Note the change here
     }
 
-    public function show(int $id) {
+    public function show($id) {
         // Fetch a specific hom by ID using the home
-        $hom = $this->home->getById($id);
+        $wiki = $this->wiki->raw("SELECT w.id, w.title, w.content, w.edited_at, w.created_at, c.name AS category, u.username AS author, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id WHERE w.id = $id GROUP BY w.id, w.title, w.content, c.name, u.username;");
 
         // Render the view and pass the hom data to it
-        $this->render('hom/show', ['hom]' => $hom]);
+        $this->render('wiki', ['wiki' => $wiki], "WebCraft | Wiki");
+        /*
+        with javascript:
+        http_response_code(200);
+        echo json_encode($book);
+        */
+    }
+
+    public function fetch($id) {
+        // Fetch a specific hom by ID using the home
+        try {
+            $wiki = $this->wiki->raw("SELECT w.id, w.title, w.content, c.id as categoryID, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id WHERE w.id = :id GROUP BY w.id, w.title, w.content, c.name, u.username;", ['id' => $id]);
+            // Render the view and pass the hom data to it
+        echo json_encode(["status" => "success", "message" => "Wiki fetched successfuly", "content" => $wiki]);
+        } catch (\Exception $e) {
+            echo json_encode(["status" => "success", "message" => "There was a problem fetching the wiki"]);
+        }
         /*
         with javascript:
         http_response_code(200);
@@ -69,7 +89,7 @@ class HomeController extends BaseController {
         $hom = $this->home->getById($id);
 
         // Render the view for editing the hom
-        $this->render('hom/edit', ['hom' => $hom]);
+        return redirect('/wiki')->with(['modified' => 'hom has been updated!']);
     }
 
     public function update(Request $request, int $id) {

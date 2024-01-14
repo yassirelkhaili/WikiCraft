@@ -5,6 +5,7 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import Craftwiki from './components/Craftwiki';
 import Createwiki from './components/Createwiki';
+import Editwiki from './components/Editwiki';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path='/dashboard' Component={Dashboard}/>
       <Route path='/craftwiki' Component={Craftwiki}/>
       <Route path='/createWiki' Component={Createwiki}/>
+      <Route path='/edit/:id' Component={Editwiki}/>
     </Routes>
     </BrowserRouter>
   );

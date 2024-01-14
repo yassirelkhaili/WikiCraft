@@ -4,7 +4,6 @@ interface ToastProps {
     state?: React.ReactNode
     message: string;
     id?: number;
-    structure: 'normal' | 'modal'; 
     type: 'danger' | 'success' | 'warning';
 }
 

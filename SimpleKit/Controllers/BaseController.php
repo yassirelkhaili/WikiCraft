@@ -33,8 +33,7 @@ class BaseController {
 
     protected function render(string $view, array $data = [], string $title = '') {
         $title = $title ?: $_ENV["APP_NAME"];
-        $content = $data ? [$data[0] => $data[1]] : [];
-        $data = array_merge($content, ['jsurl' => $this->getReactContent("js/")], ['cssurl' => $this->getReactContent("css/")], ['pageTitle' => $title]);
+        $data = array_merge($data, ['jsurl' => $this->getReactContent("js/")], ['cssurl' => $this->getReactContent("css/")], ['pageTitle' => $title]);
         extract($data);
         include dirname(__DIR__) . "/Views/layouts/header.php";
         include dirname(__DIR__) . "/Views/$view.php";

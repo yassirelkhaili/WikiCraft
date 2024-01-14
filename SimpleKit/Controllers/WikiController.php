@@ -22,17 +22,38 @@ class WikiController extends BaseController {
         $this->wikitag = new Wikitags();
     }
 
-    public function index() {
+    public function indexUserWikis() {
+        if (!isset($_SESSION['user_id'])) {
+            redirect('/login');
+            exit();
+        }
         // Fetch all users using the wiki
-        $wikis = $this->wiki->raw("SELECT w.id, w.title, w.content, c.name AS category, u.username AS author, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id GROUP BY w.id, w.title, w.content, c.name, u.username;");
-
-        // Render the view and pass the wiki data to it
+        try {
+            $wikis = $this->wiki->raw("SELECT w.id, w.title, w.content, c.name AS category, u.username AS author, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id WHERE w.authorID = :id GROUP BY w.id, w.title, w.content, c.name, u.username ORDER BY w.created_at DESC;", ['id' => $_SESSION['user_id']]);
+            // Render the view and pass the wiki data to it
         echo json_encode(["status" => "success", "message" => "Wikis fetched successfuly", "content" => $wikis]);
+        } catch (\Exception $e) {
+            echo json_encode(["status" => "insert", "message" => "There was a problem fetching the wikis"]);
+        }
+    }
+
+    public function index() {
+        if (!isset($_SESSION['user_id'])) {
+            redirect('/login');
+            exit();
+        }
+        // Fetch all users using the wiki
+        try {
+            $wikis = $this->wiki->raw("SELECT w.id, w.title, w.content, c.name AS category, u.username AS author, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id GROUP BY w.id, w.title, w.content, c.name, u.username ORDER BY w.created_at DESC;");
+            // Render the view and pass the wiki data to it
+        echo json_encode(["status" => "success", "message" => "Wikis fetched successfuly", "content" => $wikis]);
+        } catch (\Exception $e) {
+            echo json_encode(["status" => "insert", "message" => "There was a problem fetching the wikis"]);
+        }
     }
 
     public function create(Request $request) {
         // Render the view for creating a new wik
-        $request->getPostData();
         if (!isset($_SESSION['user_id'])) {
             redirect('/login');
             exit();
@@ -76,21 +97,38 @@ class WikiController extends BaseController {
         */
     }
 
-    public function edit(int $id) {
-        // Fetch a specific wik by ID using the wiki
-        $wik = $this->wiki->getById($id);
-
-        // Render the view for editing the wik
-        $this->render('wik/edit', ['wik' => $wik]);
+    public function edit(Request $request, $id) {
+       try {
+         // Fetch a specific wik by ID using the wiki
+         $this->wiki->updateById($id, ['title' => $request->getPostData("title"), 'content' => $request->getPostData("content"),'categoryID' => $request->getPostData("categoryID")]);
+         //delete old tags
+         $tagIdsToDelete = $this->wikitag->raw("SELECT tagID FROM wiki_tags WHERE wikiID = :wikiId", ['wikiId' => $id]);
+         foreach ($tagIdsToDelete as $tagID) $this->tag->deleteById($tagID['tagID']);
+         // add new tags
+         $lastInsertedTagIDs = [];
+             $tags = $request->getPostData("tags");
+             foreach ($tags as $value) $lastInsertedTagIDs[] = $this->tag->create(['name' => $value]);
+             //assign tags to wiki in wiki_tags pivot table
+             foreach ($tags as $index => $value) $this->wikitag->create(['wikiID' => $id, 'tagID' => $lastInsertedTagIDs[$index][0]]);
+             echo json_encode(["status" => "success", "message" => "Wiki edited successfully"]);
+       } catch (\Exception $e) {
+        echo json_encode(["status" => "insert", "message" => "There was an error editing the wiki"]);
+       }
     }
 
 
     public function destroy($id) {
-        // Delete a specific wik by ID using the wiki
-        $this->wiki->deleteById($id);
 
+        try {
+            // Delete a specific wik by ID using the wiki
+        $tagIdsToDelete = $this->wikitag->raw("SELECT tagID FROM wiki_tags WHERE wikiID = :wikiId", ['wikiId' => $id]);
+        foreach ($tagIdsToDelete as $tagID) $this->tag->deleteById($tagID['tagID']);
+        $this->wiki->deleteById($id);
         // Redirect back to the index page with a success message (or handle differently based on your needs)
-        return redirect('/wiki')->with(['destroy' => 'wik was deleted']);
+        echo json_encode(["status" => "success", "message" => "Wiki Deleted successfully"]);
+        } catch (\Exception $e) {
+        echo json_encode(["status" => "success", "message" => "There was an error deleting the wiki"]);
+        }
     }
 
     // You can add more controller methods as needed to handle other wik-related functionalities

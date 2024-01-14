@@ -21,7 +21,7 @@
   </script>
     <title><?= $pageTitle ?></title>
 </head>
-<body className="bg-gray-900">
+<body class="bg-main_background_color">
 <header class="absolute w-full flex px-6 justify-between items-center h-20 border-b-[1px] border-border_color bg-main_header">
 <div>
     <img src="../../public/frontend/src/images/brandlogo.webp" alt="WebCraft logo" class="h-8 w-56">
