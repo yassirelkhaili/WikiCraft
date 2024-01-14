@@ -10,6 +10,10 @@
         public function __construct() {
             $this->entity = new EntityManager("tag");
         }
+
+        public function count() {
+            return $this->entity->count()->get();
+        }
     
         public function create($data): array {
             return $this->entity->saveMany([$data]);

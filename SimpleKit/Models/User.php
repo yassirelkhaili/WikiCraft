@@ -10,6 +10,10 @@
         public function __construct() {
             $this->entity = new EntityManager("user");
         }
+
+        public function count() {
+            return $this->entity->count()->get();
+        }
     
         public function create($data) {
             $this->entity->saveMany([$data]);

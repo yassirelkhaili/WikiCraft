@@ -5,13 +5,22 @@ namespace SimpleKit\Controllers;
 use function SimpleKit\Helpers\redirect;
 use SimpleKit\Helpers\Request;
 use SimpleKit\Models\Wiki;
+use SimpleKit\Models\Tag;
+use SimpleKit\Models\Category;
+use SimpleKit\Models\User;
 class HomeController extends BaseController {
     
     protected $home;  // This translates to home
     protected $wiki;
+    protected $tag;
+    protected $user;
+    protected $category;
     public function __construct() {
         // Instantiate the home and assign it to the protected property
         $this->wiki = new Wiki();
+        $this->tag = new Tag();
+        $this->user = new User();
+        $this->category = new Category();
     }
 
     public function renderHome() {
@@ -30,7 +39,11 @@ class HomeController extends BaseController {
     }
 
     public function renderDashboard() {
-        $this->render('Dashboard/dashboard', [], "WebCraft | Dashboard");
+        $categories = $this->category->count();
+        $users = $this->user->count();
+        $tags = $this->tag->count();
+        $wikis = $this->wiki->count();
+        $this->render('Dashboard/dashboard', ['categories' => $categories[0]['count'], 'users' => $users[0]['count'], 'tags' => $tags[0]['count'], 'wikis' => $wikis[0]['count']], "WebCraft | Dashboard");
     }
 
     public function renderCraftwiki () {
