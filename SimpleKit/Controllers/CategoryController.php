@@ -28,6 +28,17 @@ class CategoryController extends BaseController {
         $this->render('categor/create');
     }
 
+    public function fetch($id) {
+        // Fetch a specific hom by ID using the home
+        try {
+            $category = $this->category->getById($id);
+            // Render the view and pass the hom data to it
+        echo json_encode(["status" => "success", "message" => "Category fetched successfuly", "content" => $category]);
+        } catch (\Exception $e) {
+            echo json_encode(["status" => "success", "message" => "There was a problem fetching the category"]);
+        }
+    }
+
     public function store(Request $request) {
         // Create a new categor using the category
        try {

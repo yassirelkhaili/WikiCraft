@@ -7,6 +7,7 @@ import Craftwiki from './components/Craftwiki';
 import Createwiki from './components/Createwiki';
 import Editwiki from './components/Editwiki';
 import Createcategory from './components/Createcat';
+import EditCategory from './components/EditCategory';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path='/createWiki' Component={Createwiki}/>
       <Route path='/createcategory' Component={Createcategory}/>
       <Route path='/edit/:id' Component={Editwiki}/>
+      <Route path='/editcategory/:id' Component={EditCategory}/>
     </Routes>
     </BrowserRouter>
   );

@@ -38,6 +38,10 @@ class HomeController extends BaseController {
         $this->render('Auth/register', [], "WebCraft | Register");
     }
 
+    public function renderCategoryEdit() {
+        $this->render('Dashboard/editcategory', [], "WebCraft | editcategory");
+    }
+
     public function renderDashboard() {
         $categories = $this->category->count();
         $users = $this->user->count();

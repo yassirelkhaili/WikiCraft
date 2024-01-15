@@ -41,7 +41,7 @@ const Createcategory = () => {
         }
       }
 
-      //handle wiki creation
+      //handle category creation
 
       const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
         const { name, value } = event.target;
