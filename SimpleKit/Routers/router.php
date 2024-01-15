@@ -41,7 +41,7 @@ $router->addRoute('/logout', AuthController::class,'logout');
 //crud
 
 $router->addRoute('/fetchwikis', WikiController::class, 'indexUserWikis', AuthMiddleware::class, 'handleCraftPage');
-$router->addRoute('/fetchwikisadmin', WikiController::class, 'index', AuthMiddleware::class);
+$router->addRoute('/fetchwikisadmin', WikiController::class, 'index');
 $router->addRoute('/createwiki', HomeController::class,'renderCreateWiki', AuthMiddleware::class, 'handleCraftPage');
 $router->addRoute('/postwiki', WikiController::class, 'create', AuthMiddleware::class, 'handleCraftPage');
 $router->addRoute('/postcategory', CategoryController::class, 'store', AuthMiddleware::class);

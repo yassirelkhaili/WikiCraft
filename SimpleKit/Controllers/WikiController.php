@@ -23,7 +23,7 @@ class WikiController extends BaseController {
     }
 
     public static function hasPermissionTo (int $id, Wiki $wiki) {
-        return $wiki = $wiki->getById($id)[0] === $_SESSION['user_id'] || $_SESSION['user_role'] === 'admin';
+        return $wiki->getById($id)[0]['authorID'] === $_SESSION['user_id'] || $_SESSION['user_role'] === 'admin';
     }
 
     public function indexUserWikis() {
@@ -42,10 +42,6 @@ class WikiController extends BaseController {
     }
 
     public function index() {
-        if (!isset($_SESSION['user_id'])) {
-            redirect('/login');
-            exit();
-        }
         // Fetch all users using the wiki
         try {
             $wikis = $this->wiki->raw("SELECT w.id, w.title, w.content, c.name AS category, u.username AS author, GROUP_CONCAT(t.name) AS tags FROM wiki w JOIN user u ON w.authorID = u.id JOIN category c ON w.categoryID = c.id LEFT JOIN wiki_tags wt ON w.id = wt.wikiID LEFT JOIN tag t ON wt.tagID = t.id GROUP BY w.id, w.title, w.content, c.name, u.username ORDER BY w.created_at DESC;");

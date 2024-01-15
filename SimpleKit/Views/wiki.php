@@ -1,6 +1,6 @@
-<main class="pt-32 pb-16 lg:pt-16 lg:pb-24 antialiased">
+<main class="pt-48 pb-16 lg:pt-16 lg:pb-24 antialiased">
   <?php if(isset($wiki[0])): ?>
-    <div class="flex justify-between px-4 mx-auto max-w-screen-xl ">
+    <div class="flex justify-between px-4 mx-auto max-w-screen-xl pt-28">
       <article class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
           <header class="mb-4 lg:mb-6 not-format">
               <address class="flex items-center mb-6 not-italic">
