@@ -56,6 +56,7 @@ class AuthController extends BaseController {
             }
             $sessionToken = bin2hex(random_bytes(32));
             $_SESSION['session_token'] = $sessionToken;
+            $_SESSION['user_role'] = "author";
             $_SESSION['user_id'] = $this->user->getByEmail($request->getPostData("email"))[0]['id'];
             echo json_encode(["status"=> "success","message"=> "Account Created Successfuly"]);
         } else {

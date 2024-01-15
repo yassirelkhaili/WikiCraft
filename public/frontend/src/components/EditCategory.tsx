@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, {useEffect, useState} from 'react'
 import Toast from '../utils/ToastComponent';
 import Spinner from '../utils/Spinner';
 
@@ -58,7 +58,7 @@ const Createwiki = () => {
       
 
       const postCategoryInfo = async(): Promise<ResponseProps> => {
-        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/postcategory';
+        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/editcategoryroute/' + id;
         const formData = new URLSearchParams();
         if (categories) {
               formData.append('name', categories.name);
@@ -148,7 +148,7 @@ const Createwiki = () => {
           </div>
           <div className='mt-4 sm:mt-6'>
           {isLoading ? <Spinner /> : <button type="button" className={`inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white rounded-lg ${isSubmitted ? 'bg-gray-600' : 'bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 focus:ring-4 focus:outline-none'}`} onClick={handleFormSubmission}>
-              Add Category
+              Edit Category
           </button>}
           </div>
       </form>
