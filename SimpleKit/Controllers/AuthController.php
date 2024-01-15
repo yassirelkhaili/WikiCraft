@@ -5,7 +5,6 @@ namespace SimpleKit\Controllers;
 use function SimpleKit\Helpers\redirect;
 use SimpleKit\Models\User;
 use SimpleKit\Helpers\Request;
-
 class AuthController extends BaseController {
     
     protected $user;  // This translates to auth

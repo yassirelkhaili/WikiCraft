@@ -41,12 +41,17 @@ $router->addRoute('/logout', AuthController::class,'logout');
 //crud
 
 $router->addRoute('/fetchwikis', WikiController::class, 'indexUserWikis', AuthMiddleware::class, 'handleCraftPage');
+$router->addRoute('/fetchwikisadmin', WikiController::class, 'index');
 $router->addRoute('/createwiki', HomeController::class,'renderCreateWiki', AuthMiddleware::class, 'handleCraftPage');
 $router->addRoute('/postwiki', WikiController::class, 'create', AuthMiddleware::class, 'handleCraftPage');
+$router->addRoute('/postcategory', CategoryController::class, 'store', AuthMiddleware::class);
 $router->addRoute('/editwiki/{id}', WikiController::class, 'edit', AuthMiddleware::class, 'handleCraftPage');
 $router->addRoute('/fetchcategories', CategoryController::class,'fetchCategories');
+$router->addRoute('/fetchcategory/{id}', CategoryController::class,'fetch', AuthMiddleware::class);
 $router->addRoute('/deletewiki/{id}', WikiController::class,'destroy', AuthMiddleware::class, 'handleCraftPage');
+$router->addRoute('/deletecategory/{id}', CategoryController::class,'destroy', AuthMiddleware::class);
 $router->addRoute('/edit/{id}', HomeController::class,'renderEdit', AuthMiddleware::class, 'handleCraftPage');
+$router->addRoute('/editcategory/{id}', HomeController::class,'renderCategoryEdit', AuthMiddleware::class);
 
 $uri = $_SERVER['REQUEST_URI'];
 

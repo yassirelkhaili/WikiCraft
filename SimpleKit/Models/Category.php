@@ -14,6 +14,10 @@
         public function create($data) {
             $this->entity->saveMany([$data]);
         }
+
+        public function count(): array {
+            return $this->entity->count()->get();
+        }
     
         public function getAll(): Array {
             return $this->entity->fetchAll()->orderBy(["created_at"], "DESC")->get();

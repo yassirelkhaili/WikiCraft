@@ -57,7 +57,7 @@ const Home = () => {
     }
 
     const fetchWikis = async(): Promise<ResponseProps> => {
-      const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchwikis';
+      const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchwikisadmin';
   const options: {
     method: string;
     credentials: RequestCredentials;
@@ -166,7 +166,10 @@ const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>): void => 
                   className="inline-flex w-full px-4 py-2 text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" 
                   href={`${process.env.REACT_APP_HOST_NAME}/wiki/${wiki.id}`}
                 >
-                  {wiki.title}
+                  <div className="flex flex-col">
+                  <div className="block">{wiki.title}</div>
+                  <div className="text-gray-400">{wiki.content.length > 30 ? wiki.content.slice(0, 30) + '...' : wiki.content}</div>
+                  </div>
                 </a>
               ))
             ) : (
