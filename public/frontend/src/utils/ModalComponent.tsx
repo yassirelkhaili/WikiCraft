@@ -5,6 +5,7 @@ import Toast from './ToastComponent';
 interface ModalProps {
     toast: React.ReactNode;
     settoast: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+    contentType: string;
     message: string;
     id?: number; 
     type: 'danger' | 'success' | 'warning';
@@ -12,7 +13,7 @@ interface ModalProps {
 }
 
 
-const Modal = ({message, type, id, toast, settoast, updateFunction} : ModalProps) => {
+const Modal = ({message, type, id, toast, settoast, updateFunction, contentType} : ModalProps) => {
     let toastIcon: React.ReactNode | React.ReactElement;
 
     switch (type) {
@@ -73,7 +74,18 @@ const Modal = ({message, type, id, toast, settoast, updateFunction} : ModalProps
     useEffect(() => handleToastTrigger(), [toast])
 
     async function deleteWiki(): Promise<ResponseProps> {
-        const endPoint: string = process.env.REACT_APP_HOST_NAME + `/deletewiki/${id}`;
+        let endPoint: string = '';
+        switch (contentType) {
+            case 'wikis':
+                endPoint = process.env.REACT_APP_HOST_NAME + `/deletewiki/${id}`;
+            break;
+            case 'categories':
+                endPoint = process.env.REACT_APP_HOST_NAME + `/deletecategory/${id}`;
+            break;
+            default:
+                endPoint = process.env.REACT_APP_HOST_NAME + `/deletewiki/${id}`;
+            break;
+        }
         try {
             const response: Response = await fetch(endPoint);
             if (!response.ok) {
@@ -86,7 +98,7 @@ const Modal = ({message, type, id, toast, settoast, updateFunction} : ModalProps
         }
     }
 
-    const handleWikiDelete = () => {
+    const handleDelete = () => {
         deleteWiki().then((response: ResponseProps) => {
             updateFunction();
             switch(response.status) {
@@ -117,7 +129,7 @@ const Modal = ({message, type, id, toast, settoast, updateFunction} : ModalProps
     </button>
 </div>
 <div>
-<button onClick={handleWikiDelete} className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
+<button onClick={handleDelete} className="bg-blue-500 hover:bg-blue-600 text-slate-50 font-bold py-2 px-4 rounded focus:ring-4 focus:border-blue-200 border-blue-700">
       Confirm
     </button>
 </div>

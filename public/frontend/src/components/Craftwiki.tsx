@@ -68,7 +68,7 @@ const Craftwiki = () => {
       }, [])
 
       const handleWikiDelete = (id: number) => {
-        settoast(<Modal settoast={settoast} toast={toast} id={id} updateFunction={updateWikis} message="Click confirm to delete wiki" type='warning'></Modal>);
+        settoast(<Modal contentType='wikis' settoast={settoast} toast={toast} id={id} updateFunction={updateWikis} message="Click confirm to delete wiki" type='warning'></Modal>);
       }
     
   return (

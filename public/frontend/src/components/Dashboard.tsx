@@ -3,6 +3,7 @@ import Spinner from '../utils/Spinner';
 import Toast from '../utils/ToastComponent';
 import { Tag } from './Createwiki';
 import Modal from '../utils/ModalComponent';
+import Category from './Category';
 
 interface Wiki {
     id: number;
@@ -56,19 +57,11 @@ const Craftwiki = () => {
         setisLoading(true);
         fetchWikis().then((response: ResponseProps) => {
             setwikis(response.content);
-            switch(response.status) {
-                case 'success':
-                settoast(<Toast message={response.message} type='success'></Toast>);
-                break;
-                default:
-                settoast(<Toast message={response.message} type='warning'></Toast>);
-                break;
-               }
         }).catch((error) => settoast(<Toast message={`An error has occured ${error}`} type='danger'/>)).finally(() => setisLoading(false));
       }, [])
 
       const handleWikiDelete = (id: number) => {
-        settoast(<Modal settoast={settoast} toast={toast} id={id} updateFunction={updateWikis} message="Click confirm to delete wiki" type='warning'></Modal>);
+        settoast(<Modal contentType="wikis" settoast={settoast} toast={toast} id={id} updateFunction={updateWikis} message="Click confirm to delete wiki" type='warning'></Modal>);
       }
     
   return (
@@ -140,6 +133,7 @@ const Craftwiki = () => {
                         </table>
                         {toast}
                     </section>
+                    <Category />
     </>
   )
 }

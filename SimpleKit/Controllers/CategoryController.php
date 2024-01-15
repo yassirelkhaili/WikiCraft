@@ -29,13 +29,16 @@ class CategoryController extends BaseController {
     }
 
     public function store(Request $request) {
-        $data = $request->getPostData();
         // Create a new categor using the category
-        $this->category->create($data);
+       try {
+        $this->category->create(['name' => $request->getPostData('name'), 'description' => $request->getPostData('description')]);
 
         // Redirect back to the index page with a success message (or handle differently based on your needs)
         // You can also render a view or return a JSON response
-        return redirect('/books')->with(['success' => 'book created successfully!']);  // Note the change here
+        echo json_encode(["status" => "success", "message" => "Category created successfuly"]);  // Note the change here
+       } catch (\Exception $e) {
+        echo json_encode(["status" => "insert", "message" => "There was an erro creating the category"]);  
+       }
     }
 
     public function show(int $id) {
@@ -71,11 +74,15 @@ class CategoryController extends BaseController {
     }
 
     public function destroy($id) {
-        // Delete a specific categor by ID using the category
-        $this->category->deleteById($id);
 
+        try {
+            // Delete a specific wik by ID using the wiki
+        $this->category->deleteById($id);
         // Redirect back to the index page with a success message (or handle differently based on your needs)
-        return redirect('/category')->with(['destroy' => 'categor was deleted']);
+        echo json_encode(["status" => "success", "message" => "Category Deleted successfully"]);
+        } catch (\Exception $e) {
+        echo json_encode(["status" => "success", "message" => "There was an error deleting the category"]);
+        }
     }
 
     // You can add more controller methods as needed to handle other categor-related functionalities
