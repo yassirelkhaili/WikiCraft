@@ -4,10 +4,10 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import Craftwiki from './components/Craftwiki';
-import Createwiki from './components/Createwiki';
-import Editwiki from './components/Editwiki';
-import Createcategory from './components/Createcat';
-import EditCategory from './components/EditCategory';
+import Createwiki from './data/wikis/Createwiki';
+import Editwiki from './data/wikis/Editwiki';
+import Createcategory from './data/categories/Createcat';
+import EditCategory from './data/categories/EditCategory';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import Toast from '../utils/ToastComponent';
-import Spinner from '../utils/Spinner';
+import Toast from '../../utils/ToastComponent';
+import Spinner from '../../utils/Spinner';
 
 interface Category {
 name: string;
@@ -8,20 +8,22 @@ description: string;
 }
 
 interface ResponseProps {
-        status: string;
-        message: string;
-        content?: Category;
+status: string;
+message: string;
+content?: Array<Category>;
 }
 
-const Createcategory = () => {
+const Createwiki = () => {
     const [categories, setcategories] = useState<Category>();
     const [isLoading, setisLoading] = useState<boolean>(false);
     const [toast, settoast] = useState<React.ReactNode>(<></>);
     const [isSubmitted, setisSubmitted] = useState<boolean>(false);
-  
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    const id = parts[parts.length - 1];
 
     const fetchCategories = async(): Promise<ResponseProps> => {
-        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchcategories';
+        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/fetchcategory/' + id;
     const options: {
       method: string;
       credentials: RequestCredentials;
@@ -56,7 +58,7 @@ const Createcategory = () => {
       
 
       const postCategoryInfo = async(): Promise<ResponseProps> => {
-        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/postcategory';
+        const endpoint: string = process.env.REACT_APP_HOST_NAME + '/editcategoryroute/' + id;
         const formData = new URLSearchParams();
         if (categories) {
               formData.append('name', categories.name);
@@ -89,6 +91,7 @@ const Createcategory = () => {
         }
       }
 
+
       const handleFormSubmission = (event: React.MouseEvent<HTMLButtonElement>): void => {
         event.preventDefault();
         setisLoading(true);
@@ -97,7 +100,7 @@ const Createcategory = () => {
          switch(response.status) {
           case 'success':
           settoast(<Toast message={response.message} type='success'></Toast>);
-          setTimeout(() => window.location.href = process.env.REACT_APP_HOST_NAME + '/dashboard' as string, 1000);
+          setTimeout(() => window.location.href = process.env.REACT_APP_HOST_NAME + '/craftwiki' as string, 1000);
           break;
           case 'insert':
           settoast(<Toast message={response.message} type='danger'></Toast>);
@@ -114,7 +117,7 @@ const Createcategory = () => {
       useEffect(() => {
         setisLoading(true);
     fetchCategories().then((response: ResponseProps) => {
-        setcategories(response.content);
+        response.content && setcategories(response.content[0]);
         switch(response.status) {
             case 'success':
             settoast(<Toast message={response.message} type='success'></Toast>);
@@ -128,24 +131,24 @@ const Createcategory = () => {
       
   return (
     <>
-    <section>
+        <section>
   <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-      <h2 className="mb-4 text-xl font-bold text-[#3B82F6]">Add category</h2>
+      <h2 className="mb-4 text-xl font-bold text-[#3B82F6]">Edit category</h2>
       <form>
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                   <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                  <input type="text" name="name" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Category name here" required onChange={handleChange}>
+                  <input type="text" name="name" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Category name here" value={categories?.name} required onChange={handleChange}>
                   </input>
               </div>
               <div className="sm:col-span-2">
                   <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                  <textarea name="description" id="description" rows={8} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Category description here" onChange={handleChange}></textarea>
+                  <textarea name="description" id="description" rows={8} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none" placeholder="Category description here" value={categories?.description} onChange={handleChange}></textarea>
               </div>
           </div>
           <div className='mt-4 sm:mt-6'>
           {isLoading ? <Spinner /> : <button type="button" className={`inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white rounded-lg ${isSubmitted ? 'bg-gray-600' : 'bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 focus:ring-4 focus:outline-none'}`} onClick={handleFormSubmission}>
-              Add Category
+              Edit Category
           </button>}
           </div>
       </form>
@@ -156,4 +159,4 @@ const Createcategory = () => {
   )
 }
 
-export default Createcategory
+export default Createwiki

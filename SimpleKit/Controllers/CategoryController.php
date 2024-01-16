@@ -65,13 +65,16 @@ class CategoryController extends BaseController {
         */
     }
 
-    public function edit(int $id) {
+    public function edit(Request $request, int $id) {
         // Fetch a specific categor by ID using the category
-        $categor = $this->category->getById($id);
-
-        // Render the view for editing the categor
-        $this->render('categor/edit', ['categor' => $categor]);
-    }
+        try {
+            // Fetch a specific wik by ID using the wiki
+            $this->category->updateById($id, ['name' => $request->getPostData("name"), 'description' => $request->getPostData("description")]);
+                echo json_encode(["status" => "success", "message" => "Category edited successfully"]);
+          } catch (\Exception $e) {
+           echo json_encode(["status" => "insert", "message" => "There was an error editing the category"]);
+          }
+      }
 
     public function update(Request $request, int $id) {
         // Validate the request data (assuming a simple validation here)

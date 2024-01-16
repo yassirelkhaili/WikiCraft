@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Spinner from '../utils/Spinner';
 import Toast from '../utils/ToastComponent';
-import { Tag } from './Createwiki';
 import Modal from '../utils/ModalComponent';
 
 interface Category {

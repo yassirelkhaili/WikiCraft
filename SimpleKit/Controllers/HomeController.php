@@ -42,6 +42,10 @@ class HomeController extends BaseController {
         $this->render('Dashboard/editcategory', [], "WebCraft | editcategory");
     }
 
+    public function renderCategoryCreate() {
+        $this->render('Dashboard/createcategory', [], "WebCraft | createcategory");
+    }
+
     public function renderDashboard() {
         $categories = $this->category->count();
         $users = $this->user->count();
