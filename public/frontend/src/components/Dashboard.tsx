@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Spinner from '../utils/Spinner';
 import Toast from '../utils/ToastComponent';
-import { Tag } from './Createwiki';
+import { Tag } from '../data/wikis/Createwiki';
 import Modal from '../utils/ModalComponent';
 import Category from './Category';
 

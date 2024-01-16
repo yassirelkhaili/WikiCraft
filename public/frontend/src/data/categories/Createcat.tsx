@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import Toast from '../utils/ToastComponent';
-import Spinner from '../utils/Spinner';
+import Toast from '../../utils/ToastComponent';
+import Spinner from '../../utils/Spinner';
 
 interface Category {
 name: string;
