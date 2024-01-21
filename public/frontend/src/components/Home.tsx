@@ -92,6 +92,7 @@ const Home = () => {
   const displayAdminInfo = (): void => {
     const adminInfo: Record<string, string> = {
       "Message": "admin info for testing purposes:",
+      
       "Email": "admin@gmail.com",
       "Password": "admin321",
     };

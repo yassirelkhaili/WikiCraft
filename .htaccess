@@ -1,5 +1,16 @@
 RewriteEngine On
 
+# Redirect specific URL
+RewriteCond %{HTTPS} on
+RewriteCond %{HTTP_HOST} ^www\.wikicraft\.rf\.gd$
+RewriteCond %{QUERY_STRING} ^i=1$
+RewriteRule ^$ https://www.wikicraft.rf.gd/? [L,R=301]
+
+# Redirect to HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Additional rules for media and routing
 RewriteCond %{DOCUMENT_ROOT}/public/frontend/build/static/media/$1 -f
 RewriteRule ^static/media/(.+)$ /public/frontend/build/static/media/$1 [L]
 
@@ -7,4 +18,5 @@ RewriteCond %{REQUEST_URI} !^/public/
 RewriteCond %{REQUEST_URI} !^/vendor/
 RewriteCond %{REQUEST_URI} !^/static/
 
+# Redirect to script start/root
 RewriteRule ^(.*)$ public/index.php [QSA,L]
