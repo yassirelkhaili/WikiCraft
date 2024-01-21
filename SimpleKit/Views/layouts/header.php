@@ -9,7 +9,9 @@
 <body class="bg-main_background_color">
 <header class="absolute w-full flex px-6 justify-between items-center h-20 border-b-[1px] border-border_color bg-main_header">
 <div>
+    <a href="/">
     <img src="<?= $media['brandlogo'] ?>" alt="WebCraft logo" class="h-8 w-56">
+    </a>
 </div>
 <div class="flex justify-center items-center gap-3">
 <?php if (isset($_SESSION["session_token"])): ?>
